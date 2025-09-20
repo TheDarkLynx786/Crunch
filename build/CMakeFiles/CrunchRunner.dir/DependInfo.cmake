@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/darklynx/programming-projects/Crunch/Crunch/src/lexer/lexer.cpp" "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o.d"
   "/home/darklynx/programming-projects/Crunch/Crunch/src/main.cpp" "CMakeFiles/CrunchRunner.dir/src/main.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/main.cpp.o.d"
   )
 

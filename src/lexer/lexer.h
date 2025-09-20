@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 #include "token.h"
 #include <vector>
 #include <unordered_map>
@@ -10,7 +12,7 @@
 class Lexer {
     private: 
         std::ifstream sourceFile;
-        std::vector<Token> tokens;
+        std::vector<Token*> tokens;
         int ln = 0;
         int col = 0;
 
@@ -30,6 +32,15 @@ class Lexer {
             // Constants
             {"pi", TokenType::PI},
             {"e", TokenType::EULER},
+
+            // (Identifiers and literals done dynamically)
+
+            // Type Keywords 
+            {"int", TokenType::KW_INT},
+            {"double", TokenType::KW_DBLE},
+            {"string", TokenType::KW_STRING},
+            {"bool", TokenType::KW_BOOL},
+            {"function", TokenType::KW_FUNCTION},
 
             // Operators
             {"+", TokenType::PLUS},
@@ -70,11 +81,15 @@ class Lexer {
         };
 
     public:
+        Lexer();
+        
         Lexer(const std::string& filename);
         
         ~Lexer();
         
-        Token tokenize();
+        void tokenize();
+
+        void toString() const;
 
         void reset();
 

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o"
+  "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o.d"
   "CMakeFiles/CrunchRunner.dir/src/main.cpp.o"
   "CMakeFiles/CrunchRunner.dir/src/main.cpp.o.d"
   "CrunchRunner"

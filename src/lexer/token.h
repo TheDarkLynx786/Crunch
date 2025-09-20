@@ -5,7 +5,7 @@
 enum class TokenType {
     // Keywords
     KW_IF, KW_ELSE, KW_WHILE, KW_FOR, KW_BRK, KW_CONT, KW_PRINT,
-    KW_TRUE, KW_FALSE,
+    KW_TRUE, KW_FALSE, KW_INT, KW_DBLE, KW_STRING, KW_BOOL, KW_FUNCTION,
 
     // Identifiers and Literals
     IDENTIFIER,
@@ -49,7 +49,7 @@ class Token {
             this->col = -1;
         }
     
-        Token(TokenType type, std::string& lexeme, int ln, int col) {
+        Token(TokenType type, int ln, int col) {
             this->type = type;
             this->lexeme = this->tokenToString(type);
             this->ln = ln;
@@ -67,12 +67,20 @@ class Token {
                 case TokenType::KW_PRINT: {return "print"; break;}
                 case TokenType::KW_TRUE: {return "true"; break;}
                 case TokenType::KW_FALSE: {return "false"; break;}
+                
+                case TokenType::KW_INT: {return "int"; break;}
+                case TokenType::KW_DBLE: {return "double"; break;}
+                case TokenType::KW_STRING: {return "string"; break;}
+                case TokenType::KW_BOOL: {return "bool"; break;}
+                case TokenType::KW_FUNCTION: {return "function"; break;}
+
                 case TokenType::IDENTIFIER: {return "identifier"; break;}
                 case TokenType::INT_LIT: {return "int"; break;}
                 case TokenType::DBLE_LIT: {return "double"; break;}
                 case TokenType::STR_LIT: {return "string"; break;}
                 case TokenType::BOOL_LIT: {return "bool"; break;}
                 case TokenType::FUNCTION_MATH: {return "function"; break;}
+                
                 case TokenType::PLUS: {return "+"; break;};
                 case TokenType::MINUS: {return "-"; break;}
                 case TokenType::MULTI: {return "*"; break;}

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/CrunchRunner.dir/src/main.cpp.o -o CrunchRunner 
+/usr/bin/c++ CMakeFiles/CrunchRunner.dir/src/main.cpp.o CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o -o CrunchRunner 

@@ -81,12 +81,12 @@ clean: CMakeFiles/CrunchRunner.dir/clean
 CMakeFiles/CrunchRunner.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles --progress-num=1,2 "Built target CrunchRunner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles --progress-num=1,2,3 "Built target CrunchRunner"
 .PHONY : CMakeFiles/CrunchRunner.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CrunchRunner.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CrunchRunner.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles 0
 .PHONY : CMakeFiles/CrunchRunner.dir/rule
