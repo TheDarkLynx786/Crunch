@@ -1,0 +1,3 @@
+/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles/CrunchRunner.dir
+/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles/edit_cache.dir
+/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles/rebuild_cache.dir
