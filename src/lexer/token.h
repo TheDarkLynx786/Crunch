@@ -4,7 +4,7 @@
 
 enum class TokenType {
     // Keywords
-    KW_IF, KW_ELSE, KW_WHILE, KW_FOR, KW_BRK, KW_CONT, KW_print,
+    KW_IF, KW_ELSE, KW_WHILE, KW_FOR, KW_BRK, KW_CONT, KW_PRINT,
     KW_TRUE, KW_FALSE,
 
     // Identifiers and Literals
@@ -30,7 +30,7 @@ enum class TokenType {
     PI, EULER,
     
     // Other
-    COMMENT, WHITESPACE, END_OF_FILE, UNKNOWN
+    END_OF_FILE, UNKNOWN
 };
 
 
@@ -42,14 +42,21 @@ class Token {
         int ln, col;
     
     public:
+        Token() {
+            this->type = TokenType::UNKNOWN;
+            this->lexeme = "";
+            this->ln = -1;
+            this->col = -1;
+        }
+    
         Token(TokenType type, std::string& lexeme, int ln, int col) {
             this->type = type;
-            this->lexeme = this->setLexeme(type);
+            this->lexeme = this->tokenToString(type);
             this->ln = ln;
             this->col = col;
         }
 
-        std::string setLexeme(TokenType type) {
+        std::string tokenToString(TokenType type) {
             switch(type) {
                 case TokenType::KW_IF: {return "if"; break;}
                 case TokenType::KW_ELSE: {return "else"; break;}
@@ -57,7 +64,7 @@ class Token {
                 case TokenType::KW_FOR: {return "for"; break;}
                 case TokenType::KW_BRK: {return "break"; break;}
                 case TokenType::KW_CONT: {return "continue"; break;}
-                case TokenType::KW_print: {return "print"; break;}
+                case TokenType::KW_PRINT: {return "print"; break;}
                 case TokenType::KW_TRUE: {return "true"; break;}
                 case TokenType::KW_FALSE: {return "false"; break;}
                 case TokenType::IDENTIFIER: {return "identifier"; break;}
@@ -99,8 +106,6 @@ class Token {
                 case TokenType::RBRACE: {return "}"; break;}
                 case TokenType::PI: {return "pi"; break;}
                 case TokenType::EULER: {return "e"; break;}
-                case TokenType::COMMENT: {return "comment"; break;}
-                case TokenType::WHITESPACE: {return "whitespace"; break;}
                 case TokenType::END_OF_FILE: {return "EOF"; break;}
                 case TokenType::UNKNOWN: {return "unknown"; break;}
                 default: {return "unknown"; break;}
