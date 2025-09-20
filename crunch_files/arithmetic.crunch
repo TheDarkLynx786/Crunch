@@ -1,0 +1,14 @@
+# Arithmetic Test for Crunch
+
+int x = 9;
+int y = 8;
+
+println(x + y) # Should return 17
+
+println(x / y) # Should return 1
+
+println(x * y) # Should return 72
+
+println(x - y) # Should return 1
+
+println(x % y) # Should return 1
