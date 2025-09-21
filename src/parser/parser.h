@@ -74,4 +74,7 @@ class Parser {
 
         ExprNode* parsePrimary();
 
+        // Print Tree
+        void printTree();
+
 };

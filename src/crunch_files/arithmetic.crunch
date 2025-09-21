@@ -3,12 +3,12 @@
 int x = 9;
 int y = 8;
 
-print(x + y) # Should return 17
+print(x + y); # Should return 17
 
-print(x / y) # Should return 1
+print(x / y); # Should return 1
 
-print(x * y) # Should return 72
+print(x * y); # Should return 72
 
-print(x - y) # Should return 1
+print(x - y); # Should return 1
 
-print(x % y) # Should return 1
+print(x % y); # Should return 1

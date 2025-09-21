@@ -89,6 +89,8 @@ class Lexer {
         
         void tokenize();
 
+        std::vector<Token*> getTokens() { return this->tokens; }
+
         void toString() const;
 
         void reset();

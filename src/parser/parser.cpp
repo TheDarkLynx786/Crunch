@@ -55,8 +55,11 @@ StmtNode* Parser::parseStatement() {
 StmtNode* Parser::parseBlock() {
     std::vector<StmtNode*> stmts;
     
+    consume(TokenType::LBRACE, "Expected \"{\" character before block");
+
     while (!check(TokenType::RBRACE) && !isAtEnd()) {
-        stmts.push_back(parseStatement());
+        StmtNode* stmt = parseStatement();
+        if(stmt) stmts.push_back(stmt); //Safety Check
     }
 
     consume(TokenType::RBRACE,"Expected '}' after block");
@@ -69,12 +72,17 @@ StmtNode* Parser::parseVarDecl() {
     Token* name = consume(TokenType::IDENTIFIER,"Expected variable name");
     
     ExprNode* initializer = nullptr;
-    if ( peek()->getType() == TokenType::ASSIGN ) initializer = parseExpression();
+    if ( peek()->getType() == TokenType::ASSIGN ) {
+        advance(); // Potential Bug
+        initializer = parseExpression();
+    }
     consume(TokenType::SEMICOL,"Expected ';' after variable declaration");
     return new VarDeclStmt(typeTok->getType(), name->getLexeme(), initializer);
 }
 
 StmtNode* Parser::parseIfStmt() {
+    consume(TokenType::KW_IF, "Expected if statement");
+    
     consume(TokenType::LPAREN,"Expected '(' after if");
     ExprNode* cond = parseExpression();
     consume(TokenType::RPAREN,"Expected ')'");
@@ -82,11 +90,15 @@ StmtNode* Parser::parseIfStmt() {
     StmtNode* thenBranch = parseStatement();
     StmtNode* elseBranch = nullptr;
     
-    if (peek()->getType() == TokenType::KW_ELSE) elseBranch = parseStatement();
+    if (peek()->getType() == TokenType::KW_ELSE) {
+        advance(); // Potential Bug
+        elseBranch = parseStatement();
+    }
     return new IfStmt(cond, thenBranch, elseBranch);
 }
 
 StmtNode* Parser::parsePrintStmt() {
+    consume(TokenType::KW_PRINT, "Expected \"print\" statement.");
     ExprNode* value = parseExpression();
     consume(TokenType::SEMICOL,"Expected ';' after print value");
     return new PrintStmt(value);
@@ -105,7 +117,7 @@ ExprNode* Parser::parseExpression() { return parseLogicalOr(); }
 ExprNode* Parser::parseLogicalOr() {
     ExprNode* expr = parseLogicalAnd();
     while (peek()->getType() == TokenType::OR) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseLogicalAnd();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -115,7 +127,7 @@ ExprNode* Parser::parseLogicalOr() {
 ExprNode* Parser::parseLogicalAnd() {
     ExprNode* expr = parseEquality();
     while ( peek()->getType() == TokenType::AND) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseEquality();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -125,7 +137,7 @@ ExprNode* Parser::parseLogicalAnd() {
 ExprNode* Parser::parseEquality() {
     ExprNode* expr = parseComparison();
     while (peek()->getType() == TokenType::EQ || peek()->getType() == TokenType::NEQ) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseComparison();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -141,7 +153,7 @@ ExprNode* Parser::parseComparison() {
         peek()->getType() == TokenType::LEQ ||
         peek()->getType() == TokenType::GEQ
     ) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseTerm();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -155,7 +167,7 @@ ExprNode* Parser::parseTerm() {
         peek()->getType() == TokenType::MINUS ||
         peek()->getType() == TokenType::PLUS
     ) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseFactor();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -170,7 +182,7 @@ ExprNode* Parser::parseFactor() {
         peek()->getType() == TokenType::DIV ||
         peek()->getType() == TokenType::MOD 
     ) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseUnary();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -189,7 +201,7 @@ ExprNode* Parser::parseUnary() {
         peek()->getType() == TokenType::EXP ||
         peek()->getType() == TokenType::SQRT
     ) {
-        Token* op = previous();
+        Token* op = advance(); //Token* op = previous(); | Potential Bug
         ExprNode* right = parseUnary();
         return new UnaryExpr(op->getLexeme(), right);
     }
@@ -200,11 +212,14 @@ ExprNode* Parser::parsePrimary() {
     TokenType tok_type = peek()->getType();
     if (tok_type == TokenType::KW_TRUE)  return new BoolLiteral(true);
     if (tok_type == TokenType::KW_FALSE) return new BoolLiteral(false);
-    if (tok_type == TokenType::INT_LIT)  return new IntLiteral(*previous()); // we do a lil dereferencing
-    if (tok_type == TokenType::DBLE_LIT) return new DoubleLiteral(*previous());
-    if (tok_type == TokenType::STR_LIT)  return new StringLiteral(*previous());
-    if (tok_type == TokenType::BOOL_LIT) return new VariableExpr(*previous());
+    if (tok_type == TokenType::INT_LIT)  return new IntLiteral(*advance()); // we do a lil dereferencing | USED TO BE "previous()," Potential Bug
+    if (tok_type == TokenType::DBLE_LIT) return new DoubleLiteral(*advance());
+    if (tok_type == TokenType::STR_LIT)  return new StringLiteral(*advance());
+    if (tok_type == TokenType::BOOL_LIT) return new BoolLiteral(true); // placeholder handling for BOOL_LIT
+    if (tok_type == TokenType::IDENTIFIER) return new VariableExpr(*advance());
+    
     if (tok_type == TokenType::LPAREN) {
+        advance(); // Potential Bug
         ExprNode* expr = parseExpression();
         consume(TokenType::RPAREN,"Expected ')'");
         return expr;
@@ -212,4 +227,113 @@ ExprNode* Parser::parsePrimary() {
     
     // Add at what token later
     throw std::runtime_error("Expected expression");
+}
+
+// --- AST printing helpers (file-local) ---
+namespace {
+    void printIndent(int indent) {
+        for (int i = 0; i < indent; ++i) std::cout << "  ";
+    }
+
+    void printExprNode(ExprNode* expr, int indent);
+    void printStmtNode(StmtNode* stmt, int indent);
+
+    void printExprNode(ExprNode* expr, int indent) {
+        if (!expr) { printIndent(indent); std::cout << "<null expr>\n"; return; }
+
+        if (auto b = dynamic_cast<BinaryExpr*>(expr)) {
+            printIndent(indent); std::cout << "BinaryExpr op='" << b->op << "'\n";
+            printExprNode(b->left, indent + 1);
+            printExprNode(b->right, indent + 1);
+            return;
+        }
+        if (auto u = dynamic_cast<UnaryExpr*>(expr)) {
+            printIndent(indent); std::cout << "UnaryExpr op='" << u->op << "'\n";
+            printExprNode(u->operand, indent + 1);
+            return;
+        }
+        if (auto lit = dynamic_cast<LiteralExpr*>(expr)) {
+            printIndent(indent); std::cout << "LiteralExpr value='" << lit->value << "'\n";
+            return;
+        }
+        if (auto id = dynamic_cast<IdentifierExpr*>(expr)) {
+            printIndent(indent); std::cout << "IdentifierExpr name='" << id->name << "'\n";
+            return;
+        }
+        if (auto c = dynamic_cast<CallExpr*>(expr)) {
+            printIndent(indent); std::cout << "CallExpr\n";
+            printIndent(indent+1); std::cout << "Callee:\n";
+            printExprNode(c->callee, indent + 2);
+            printIndent(indent+1); std::cout << "Args:\n";
+            for (auto a : c->args) printExprNode(a, indent + 2);
+            return;
+        }
+        if (auto b = dynamic_cast<BoolLiteral*>(expr)) {
+            printIndent(indent); std::cout << "BoolLiteral " << (b->value ? "true" : "false") << "\n"; return;
+        }
+        if (auto i = dynamic_cast<IntLiteral*>(expr)) {
+            printIndent(indent); std::cout << "IntLiteral " << i->value << "\n"; return;
+        }
+        if (auto d = dynamic_cast<DoubleLiteral*>(expr)) {
+            printIndent(indent); std::cout << "DoubleLiteral " << d->value << "\n"; return;
+        }
+        if (auto s = dynamic_cast<StringLiteral*>(expr)) {
+            printIndent(indent); std::cout << "StringLiteral '" << s->value << "'\n"; return;
+        }
+        if (auto v = dynamic_cast<VariableExpr*>(expr)) {
+            printIndent(indent); std::cout << "VariableExpr name='" << v->name << "'\n"; return;
+        }
+
+        printIndent(indent); std::cout << "<unknown ExprNode>\n";
+    }
+
+    void printStmtNode(StmtNode* stmt, int indent) {
+        if (!stmt) { printIndent(indent); std::cout << "<null stmt>\n"; return; }
+
+        if (auto es = dynamic_cast<ExprStmt*>(stmt)) {
+            printIndent(indent); std::cout << "ExprStmt\n";
+            printExprNode(es->expr, indent + 1);
+            return;
+        }
+        if (auto vd = dynamic_cast<VarDeclStmt*>(stmt)) {
+            printIndent(indent); std::cout << "VarDeclStmt type=" << static_cast<int>(vd->type) << " name='" << vd->name << "'\n";
+            if (vd->init) printExprNode(vd->init, indent + 1);
+            return;
+        }
+        if (auto bs = dynamic_cast<BlockStmt*>(stmt)) {
+            printIndent(indent); std::cout << "BlockStmt\n";
+            for (auto s : bs->statements) printStmtNode(s, indent + 1);
+            return;
+        }
+        if (auto ifs = dynamic_cast<IfStmt*>(stmt)) {
+            printIndent(indent); std::cout << "IfStmt\n";
+            printIndent(indent+1); std::cout << "Condition:\n";
+            printExprNode(ifs->condition, indent + 2);
+            printIndent(indent+1); std::cout << "Then:\n";
+            printStmtNode(ifs->thenBranch, indent + 2);
+            if (ifs->elseBranch) {
+                printIndent(indent+1); std::cout << "Else:\n";
+                printStmtNode(ifs->elseBranch, indent + 2);
+            }
+            return;
+        }
+        if (auto ps = dynamic_cast<PrintStmt*>(stmt)) {
+            printIndent(indent); std::cout << "PrintStmt\n";
+            printExprNode(ps->value, indent + 1);
+            return;
+        }
+
+        printIndent(indent); std::cout << "<unknown StmtNode>\n";
+    }
+
+    void printProgram(Program* prog, int indent) {
+        if (!prog) { printIndent(indent); std::cout << "<null program>\n"; return; }
+        printIndent(indent); std::cout << "Program\n";
+        for (auto s : prog->statements) printStmtNode(s, indent + 1);
+    }
+}
+
+// Implement Parser::printTree to use the helpers
+void Parser::printTree() {
+    printProgram(ast_root, 0);
 }
