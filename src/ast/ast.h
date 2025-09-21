@@ -7,6 +7,18 @@
 #include "lexer/lexer.h"
 
 
+// Root Wrapper
+
+class Program {
+    public:
+        std::vector<StmtNode*> statements;
+
+        Program(const std::vector<StmtNode*>& statements) : statements(statements) {}
+        
+        ~Program() { for (auto stmt : statements) { delete stmt; } }
+
+};
+
 class ExprNode { public: virtual ~ExprNode() = default; };
 class StmtNode { public: virtual ~StmtNode() = default; };
 
