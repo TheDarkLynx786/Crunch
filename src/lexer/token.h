@@ -49,9 +49,9 @@ class Token {
             this->col = -1;
         }
     
-        Token(TokenType type, int ln, int col) {
+        Token(TokenType type, std::string lexeme, int ln, int col) {
             this->type = type;
-            this->lexeme = this->tokenToString(type);
+            this->lexeme = lexeme;
             this->ln = ln;
             this->col = col;
         }
