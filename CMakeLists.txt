@@ -6,7 +6,7 @@ add_executable(CrunchRunner
     src/main.cpp
     src/lexer/lexer.cpp
     src/parser/parser.cpp
-    src/ast/ast/cpp
+    src/ast/ast.cpp
 )
 
 

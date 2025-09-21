@@ -2,12 +2,13 @@
 
 #include <string>
 #include <vector>
-#include "lexer/lexer.h"
-#include "ast/ast.h"
+#include "../lexer/lexer.h"
+#include "../ast/ast.h"
 
 class Parser {
     private:
         std::vector<Token*> tokens;
+        size_t current;
         Program* ast_root = nullptr;
 
     public:
@@ -16,6 +17,20 @@ class Parser {
         Parser(std::vector<Token*> tokens);
         
         ~Parser();
+
+        // Helper functions
+        
+        bool isAtEnd() { return peek()->getType() == TokenType::END_OF_FILE; }
+        Token* peek() { return tokens.at(current); }
+        Token* previous() const { return tokens.at(current - 1); }
+        Token* advance() { if (!isAtEnd()) current++; return previous(); }
+        bool check(TokenType type) { return !isAtEnd() && peek()->getType() == type; }
+
+        Token* consume(TokenType type, const std::string& message) {
+            if (check(type)) return advance();
+            throw std::runtime_error(message);
+        }
+
 
         // Grammar rule based parsing functions
 

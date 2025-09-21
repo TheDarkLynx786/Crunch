@@ -4,14 +4,18 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "lexer/lexer.h"
+#include "../lexer/lexer.h"
 
+// Base Classes
+class ExprNode { public: virtual ~ExprNode() = default; };
+class StmtNode { public: virtual ~StmtNode() = default; };
 
 // Root Wrapper
-
 class Program {
     public:
         std::vector<StmtNode*> statements;
+
+        Program() {}
 
         Program(const std::vector<StmtNode*>& statements) : statements(statements) {}
         
@@ -19,39 +23,31 @@ class Program {
 
 };
 
-class ExprNode { public: virtual ~ExprNode() = default; };
-class StmtNode { public: virtual ~StmtNode() = default; };
 
 // Expression Nodes
-class BinaryOpNode : public ExprNode {
+class BinaryExpr : public ExprNode {
     public:
         std::string op;
         ExprNode* left;
         ExprNode* right;
 
-        BinaryOpNode(ExprNode* left, const std::string& op, ExprNode* right) : left(left), op(op), right(right) {
-
-        }
+        BinaryExpr(ExprNode* left, const std::string& op, ExprNode* right) : left(left), op(op), right(right) {}
         
-        ~BinaryOpNode() {
+        ~BinaryExpr() {
             delete left;
             delete right;
         }
 };
 
-class UnaryOpNode : public ExprNode {
+class UnaryExpr : public ExprNode {
     public:
         std::string op;
-        ExprNode* left;
-        ExprNode* right;
+        ExprNode* operand;
 
-        UnaryOpNode(ExprNode* left, const std::string& op, ExprNode* right) : left(left), op(op), right(right) {
-
-        }
+        UnaryExpr(const std::string& op, ExprNode* operand) : op(op), operand(operand) {}
         
-        ~UnaryOpNode() {
-            delete left;
-            delete right;
+        ~UnaryExpr() {
+            delete operand;
         }
 };
 
@@ -86,6 +82,36 @@ class CallExpr : public ExprNode {
         }
 };
 
+class BoolLiteral : public ExprNode {
+    public:
+        bool value;
+        BoolLiteral(bool v) : value(v) {}
+};
+
+class IntLiteral : public ExprNode {
+    public:
+        int value;
+        IntLiteral(const Token& t) : value(std::stoi(t.getLexeme())) {}
+};
+
+class DoubleLiteral : public ExprNode {
+    public:
+        double value;
+        DoubleLiteral(const Token& t) : value(std::stod(t.getLexeme())) {}
+};
+
+class StringLiteral : public ExprNode {
+    public:
+        std::string value;
+        StringLiteral(const Token& t) : value(t.getLexeme()) {}
+};
+
+class VariableExpr : public ExprNode {
+    public:
+        std::string name;
+        VariableExpr(const Token& t) : name(t.getLexeme()) {}
+};
+
 
 // Statement Nodes
 class ExprStmt : public StmtNode { 
@@ -97,14 +123,14 @@ class ExprStmt : public StmtNode {
         ~ExprStmt() { delete expr; }
 };
 
-class VarDeclStmt :public StmtNode { 
+class VarDeclStmt : public StmtNode { 
     public:
-        std::string type;
+        TokenType type;
         std::string name;
 
         ExprNode* init;
 
-        VarDeclStmt(const std::string& type, const std::string& name, ExprNode* init) : type(type), name(name), init(init) {}
+        VarDeclStmt(TokenType type, const std::string& name, ExprNode* init) : type(type), name(name), init(init) {}
 
         ~VarDeclStmt() { delete init; }
 };
@@ -134,6 +160,15 @@ class IfStmt : public StmtNode {
             delete thenBranch; 
             if (elseBranch) delete elseBranch; 
         }
+};
+
+class PrintStmt : public StmtNode { 
+    public:
+        ExprNode* value;
+
+        PrintStmt(ExprNode* value) : value(value) {}
+
+        ~PrintStmt() { delete value; }
 };
 
 class WhileStmt :public StmtNode { 

@@ -129,6 +129,30 @@ CrunchRunner/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/build
 .PHONY : CrunchRunner/fast
 
+src/ast/ast.o: src/ast/ast.cpp.o
+.PHONY : src/ast/ast.o
+
+# target to build an object file
+src/ast/ast.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o
+.PHONY : src/ast/ast.cpp.o
+
+src/ast/ast.i: src/ast/ast.cpp.i
+.PHONY : src/ast/ast.i
+
+# target to preprocess a source file
+src/ast/ast.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.i
+.PHONY : src/ast/ast.cpp.i
+
+src/ast/ast.s: src/ast/ast.cpp.s
+.PHONY : src/ast/ast.s
+
+# target to generate assembly for a file
+src/ast/ast.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.s
+.PHONY : src/ast/ast.cpp.s
+
 src/lexer/lexer.o: src/lexer/lexer.cpp.o
 .PHONY : src/lexer/lexer.o
 
@@ -177,6 +201,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/parser/parser.o: src/parser/parser.cpp.o
+.PHONY : src/parser/parser.o
+
+# target to build an object file
+src/parser/parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o
+.PHONY : src/parser/parser.cpp.o
+
+src/parser/parser.i: src/parser/parser.cpp.i
+.PHONY : src/parser/parser.i
+
+# target to preprocess a source file
+src/parser/parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.i
+.PHONY : src/parser/parser.cpp.i
+
+src/parser/parser.s: src/parser/parser.cpp.s
+.PHONY : src/parser/parser.s
+
+# target to generate assembly for a file
+src/parser/parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.s
+.PHONY : src/parser/parser.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +234,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CrunchRunner"
+	@echo "... src/ast/ast.o"
+	@echo "... src/ast/ast.i"
+	@echo "... src/ast/ast.s"
 	@echo "... src/lexer/lexer.o"
 	@echo "... src/lexer/lexer.i"
 	@echo "... src/lexer/lexer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/parser/parser.o"
+	@echo "... src/parser/parser.i"
+	@echo "... src/parser/parser.s"
 .PHONY : help
 
 
