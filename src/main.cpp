@@ -1,8 +1,9 @@
 #include <iostream>
 #include "lexer/lexer.h"
+#include "parser/parser.h"
 
 int main() {
-    std::string src = "src/crunch_files/basic.crunch";
+    std::string src = "src/crunch_files/if.crunch";
     
     Lexer* lexer;
 

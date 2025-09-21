@@ -64,6 +64,7 @@
         "codecvt": "cpp",
         "regex": "cpp",
         "iomanip": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "ios": "cpp"
     }
 }

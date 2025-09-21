@@ -3,29 +3,29 @@
 int x = 9;
 int y = 8;
 
-println(x + y) # Should return 17
+print(x + y) # Should return 17
 
-println(x / y) # Should return 1
+print(x / y) # Should return 1
 
-println(x * y) # Should return 72
+print(x * y) # Should return 72
 
-println(x - y) # Should return 1
+print(x - y) # Should return 1
 
-println(x % y) # Should return 1
+print(x % y) # Should return 1
 
 # Constant PI
 double pie = PI
 
-println(sin(PI)) # Should return 0
-println(cos(PI)) # Should return 1
-println(tan(PI)) # Should return PI/4 (or 0.707 or something)
+print(sin(PI)) # Should return 0
+print(cos(PI)) # Should return 1
+print(tan(PI)) # Should return PI/4 (or 0.707 or something)
 
 # Exponents
-println(exp 4, 2) # Should return 16
+print(exp 4, 2) # Should return 16
 
 
 if ( x > exp(y, 0.5) ) {
-    println("x is greater than the square root of y")
+    print("x is greater than the square root of y")
 }
 
 while (x < 11) {
@@ -33,7 +33,7 @@ while (x < 11) {
 }
 
 
-println(x) # Should return 10
+print(x) # Should return 10
 
 # function datatype
 
@@ -43,6 +43,6 @@ function g = deriv f # Should store 2*. + 2*cos(2.)
 
 function h = integral f # Should store (1/3) * .^3 - (1/2) * cos(2.)
 
-println(f) # should return f as typed
+print(f) # should return f as typed
 
 

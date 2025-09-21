@@ -50,6 +50,20 @@ class Token {
         }
     
         Token(TokenType type, std::string lexeme, int ln, int col) {
+            
+            // FOR NOW, These tokens are unsupported:
+            if 
+            (
+                type == TokenType::FUNCTION_MATH ||
+                type == TokenType::DERIV ||
+                type == TokenType::INTEGRAL ||
+                type == TokenType::KW_FOR ||
+                type == TokenType::KW_BRK ||
+                type == TokenType::KW_CONT ||
+                type == TokenType::KW_WHILE
+            ) 
+            { type = TokenType::UNKNOWN; }
+            
             this->type = type;
             this->lexeme = lexeme;
             this->ln = ln;
@@ -75,11 +89,11 @@ class Token {
                 case TokenType::KW_FUNCTION: {return "function"; break;}
 
                 case TokenType::IDENTIFIER: {return "identifier"; break;}
-                case TokenType::INT_LIT: {return "int"; break;}
-                case TokenType::DBLE_LIT: {return "double"; break;}
-                case TokenType::STR_LIT: {return "string"; break;}
-                case TokenType::BOOL_LIT: {return "bool"; break;}
-                case TokenType::FUNCTION_MATH: {return "function"; break;}
+                case TokenType::INT_LIT: {return "int_lit"; break;}
+                case TokenType::DBLE_LIT: {return "double_lit"; break;}
+                case TokenType::STR_LIT: {return "string_lit"; break;}
+                case TokenType::BOOL_LIT: {return "bool_lit"; break;}
+                case TokenType::FUNCTION_MATH: {return "function_lit"; break;}
                 
                 case TokenType::PLUS: {return "+"; break;};
                 case TokenType::MINUS: {return "-"; break;}
@@ -122,6 +136,7 @@ class Token {
 
         // Getters
         TokenType getType() const { return type; }
+        std::string getTypeString() { return this->tokenToString(type); }
         std::string getLexeme() const { return lexeme; }
         int getLine() const { return ln; }
         int getColumn() const { return col; }

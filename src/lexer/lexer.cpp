@@ -118,7 +118,7 @@ void Lexer::tokenize() {
                             t = (it != lex_rules.end()) ? it->second : TokenType::UNKNOWN;
                         }
                         Token* new_tok = new Token(t, buf, ln, col);
-                        std::cout << "Token: " << new_tok->getLexeme() << std::endl;
+                        std::cout << "Token: " << new_tok->getTypeString() << " | Name: " << new_tok->getLexeme() << std::endl;
                         tokens.push_back(new_tok);
                         buf.clear();
                     };
@@ -136,7 +136,7 @@ void Lexer::tokenize() {
                             auto it = lex_rules.find(s);
                             TokenType t = (it != lex_rules.end()) ? it->second : TokenType::UNKNOWN;
                             Token* new_tok = new Token(t, s, ln, col);
-                            std::cout << "Token: " << new_tok->getLexeme() << std::endl;
+                            std::cout << "Token: " << new_tok->getTypeString() << " | Name: " << new_tok->getLexeme() << std::endl;
                             tokens.push_back(new_tok);
                             continue;
                         }
@@ -154,7 +154,7 @@ void Lexer::tokenize() {
                                     // found two-char operator
                                     finalize_buffer(buffer);
                                     Token* new_tok = new Token(it2->second, two, ln, col);
-                                    std::cout << "Token: " << new_tok->getLexeme() << std::endl;
+                                    std::cout << "Token: " << new_tok->getTypeString() << " | Name: " << new_tok->getLexeme() << std::endl;
                                     tokens.push_back(new_tok);
                                     ++i; // consume the second char
                                     continue;
@@ -167,7 +167,7 @@ void Lexer::tokenize() {
                             auto it1 = lex_rules.find(s);
                             TokenType t = (it1 != lex_rules.end()) ? it1->second : TokenType::UNKNOWN;
                             Token* new_tok = new Token(t, s, ln, col);
-                            std::cout << "Token: " << new_tok->getLexeme() << std::endl;
+                            std::cout << "Token: " << new_tok->getTypeString() << " | Name: " << new_tok->getLexeme() << std::endl;
                             tokens.push_back(new_tok);
                             continue;
                         }
@@ -183,12 +183,12 @@ void Lexer::tokenize() {
                 if(processing) {
                     // Increase col (1 for space)
                     this->col += word.length() + 1; 
-                    
+
                     continue;
                 }
                 
                 Token* new_tok = new Token(tok, word, ln, col);
-                std::cout << "Token: " << new_tok->getLexeme() << std::endl;
+                std::cout << "Token: " << new_tok->getTypeString() << " | Name: " << new_tok->getLexeme() << std::endl;
                 tokens.push_back( new_tok );
                 
 
@@ -216,7 +216,7 @@ void Lexer::reset() {
 
 void Lexer::toString() const {
     for (const auto& token : tokens) {
-        std::cout << token->getLexeme() << " ";
+        std::cout << token->getTypeString() << " ";
     }
     std::cout << std::endl;
 }
