@@ -140,6 +140,27 @@ CrunchRunner: CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/build.make
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMCore.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMIRReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMSupport.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMAnalysis.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMAsmParser.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMProfileData.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDebugInfoDWARF.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMObject.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBitReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMCore.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMRemarks.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBitstreamReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMMCParser.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMTextAPI.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMMC.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBinaryFormat.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDebugInfoCodeView.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMSupport.a
+CrunchRunner: /usr/lib/x86_64-linux-gnu/libz.so
+CrunchRunner: /usr/lib/x86_64-linux-gnu/libtinfo.so
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDemangle.a
 CrunchRunner: CMakeFiles/CrunchRunner.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable CrunchRunner"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CrunchRunner.dir/link.txt --verbose=$(VERBOSE)

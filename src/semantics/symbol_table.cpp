@@ -10,8 +10,7 @@ void SymbolTable::popScope() {
     if (!scopes.empty()) scopes.pop_back(); 
 }
 
-// Declare a new symbol in the current scope
-// Returns false if a symbol with the same name exists in the current scope
+// New symbol, returns false if one already exists
 /*bool SymbolTable::declare(const std::string& name, TokenType type, llvm::AllocaInst* llvmValue = nullptr) {
     if (scopes.empty()) pushScope();
 

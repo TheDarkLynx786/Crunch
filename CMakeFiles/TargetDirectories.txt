@@ -1,0 +1,8 @@
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/intrinsics_gen.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/vt_gen.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/omp_gen.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/acc_gen.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/target_parser_gen.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CrunchRunner.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/edit_cache.dir
+/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/rebuild_cache.dir

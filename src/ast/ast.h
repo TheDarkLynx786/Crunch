@@ -1,17 +1,38 @@
 #pragma once
 
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/Module.h>
+#include <llvm/IR/Verifier.h>
+#include <llvm/IR/Type.h>
+#include <llvm/IR/Value.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <memory>
 #include "../lexer/lexer.h"
 
+using namespace llvm;
+
 // Base Classes
-class ExprNode { public: virtual ~ExprNode() = default; };
-class StmtNode { public: virtual ~StmtNode() = default; };
+class ASTNode {
+    public:
+    virtual ~ASTNode() = default;
+
+    // Optional: printing for debugging
+    virtual void print(int indent = 0) const = 0;
+
+    // LLVM code generation
+    virtual llvm::Value* codegen(llvm::LLVMContext &context,
+                                 llvm::IRBuilder<> &builder,
+                                 llvm::Module &module) = 0;
+};
+
+class ExprNode : public ASTNode { public: virtual ~ExprNode() = default; };
+class StmtNode : public ASTNode { public: virtual ~StmtNode() = default; };
 
 // Root Wrapper
-class Program {
+class Program : public ASTNode {
     public:
         std::vector<StmtNode*> statements;
 
@@ -20,6 +41,16 @@ class Program {
         Program(const std::vector<StmtNode*>& statements) : statements(statements) {}
         
         ~Program() { for (auto stmt : statements) { delete stmt; } }
+
+        llvm::Value* codegen(llvm::LLVMContext &context,
+                         llvm::IRBuilder<> &builder,
+                         llvm::Module &module) override {
+        llvm::Value* last = nullptr;
+        for (auto stmt : statements) {
+            last = stmt->codegen(context, builder, module);
+        }
+        return last;
+    }
 
 };
 
