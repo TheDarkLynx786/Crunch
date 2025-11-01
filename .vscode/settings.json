@@ -65,6 +65,7 @@
         "regex": "cpp",
         "iomanip": "cpp",
         "sstream": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "list": "cpp"
     }
 }

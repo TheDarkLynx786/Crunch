@@ -11,25 +11,47 @@
 #include <vector>
 #include <memory>
 #include "../lexer/lexer.h"
+#include "../semantics/symbol_table.h"
 
-using namespace llvm;
+// Context Structure
+struct codegen_ctx {
+    llvm::LLVMContext context;
+    llvm::IRBuilder<> builder;
+    std::unique_ptr<llvm::Module> module;
+
+    // Symbol Table
+    SymbolTable* symTable = new SymbolTable();
+    
+    codegen_ctx(const std::string &moduleName) : builder(context) {
+        module = std::make_unique<llvm::Module>(moduleName, context);
+    }
+};
 
 // Base Classes
 class ASTNode {
     public:
-    virtual ~ASTNode() = default;
+        virtual ~ASTNode() = default;
 
-    // Optional: printing for debugging
-    virtual void print(int indent = 0) const = 0;
+        // Optional: printing for debugging
+        // virtual void print(int indent = 0) const = 0;
 
-    // LLVM code generation
-    virtual llvm::Value* codegen(llvm::LLVMContext &context,
-                                 llvm::IRBuilder<> &builder,
-                                 llvm::Module &module) = 0;
+        // LLVM code generation
+        virtual llvm::Value* codegen(codegen_ctx&) = 0;
 };
 
-class ExprNode : public ASTNode { public: virtual ~ExprNode() = default; };
-class StmtNode : public ASTNode { public: virtual ~StmtNode() = default; };
+class ExprNode : public ASTNode { 
+    public:
+        virtual ~ExprNode() = default; 
+
+        virtual llvm::Value* codegen(codegen_ctx& ctx) override = 0;
+};
+
+class StmtNode : public ASTNode {
+    public:
+        virtual ~StmtNode() = default; 
+
+        virtual llvm::Value* codegen(codegen_ctx& ctx) override = 0;
+};
 
 // Root Wrapper
 class Program : public ASTNode {
@@ -42,15 +64,16 @@ class Program : public ASTNode {
         
         ~Program() { for (auto stmt : statements) { delete stmt; } }
 
-        llvm::Value* codegen(llvm::LLVMContext &context,
-                         llvm::IRBuilder<> &builder,
-                         llvm::Module &module) override {
-        llvm::Value* last = nullptr;
-        for (auto stmt : statements) {
-            last = stmt->codegen(context, builder, module);
+        // void print(int indent = 0) const override = 0;
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            
+            llvm::Value* last = nullptr;
+            for (auto stmt : statements) {
+                last = stmt->codegen(ctx);
+            }
+            return last;
         }
-        return last;
-    }
 
 };
 
@@ -135,6 +158,9 @@ class StringLiteral : public ExprNode {
     public:
         std::string value;
         StringLiteral(const Token& t) : value(t.getLexeme()) {}
+        
+        // TODO
+        llvm::Value* codegen(codegen_ctx& ctx) override {}
 };
 
 class VariableExpr : public ExprNode {
@@ -152,6 +178,10 @@ class ExprStmt : public StmtNode {
         ExprStmt(ExprNode* expr) : expr(expr) {}
 
         ~ExprStmt() { delete expr; }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return expr->codegen(ctx);
+        }
 };
 
 class VarDeclStmt : public StmtNode { 
@@ -164,6 +194,80 @@ class VarDeclStmt : public StmtNode {
         VarDeclStmt(TokenType type, const std::string& name, ExprNode* init) : type(type), name(name), init(init) {}
 
         ~VarDeclStmt() { delete init; }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            
+            llvm::Type* var_type = nullptr;
+            
+            // Assign var_type to token type
+            switch(type) {
+                
+                case TokenType::KW_INT:
+                    var_type = llvm::Type::getInt32Ty(ctx.context); break;
+                
+                case TokenType::KW_DBLE:
+                    var_type = llvm::Type::getDoubleTy(ctx.context); break;
+                
+                case TokenType::KW_BOOL:
+                    var_type = llvm::Type::getInt1Ty(ctx.context); break; // 1 bit
+                
+                case TokenType::KW_STRING: { 
+                    
+                    size_t length = 0;
+
+                    if (typeid(init) == typeid(StringLiteral) ) {
+                        
+                        std::string val = dynamic_cast<StringLiteral*>(init)->value;
+                        length = val.length() + 1; // +1 for null terminator
+
+                    } else {
+                        
+                        std::cerr << "Expected a string literal for intializing string variable" << std::endl;
+                        return nullptr;
+
+                    }
+                    
+                    var_type = llvm::ArrayType::get( llvm::Type::getInt8Ty(ctx.context), length ); break;
+                }
+
+                default:
+                    std::cerr << "Unsupported variable type" << std::endl;
+                    return nullptr;
+            }
+            
+            // Create allocation instance
+            llvm::AllocaInst* alloca = ctx.builder.CreateAlloca(var_type, nullptr, name);
+
+            // Add to symbol table and check if no repeated declaration in scope
+            if (!ctx.symTable->declare(name, type, alloca)) {
+                std::cerr << "Variable already declared in scope: " << name << std::endl;
+                return nullptr;
+            }
+
+            // Handle initialization if initalizer is present
+            llvm::Value* init_val = nullptr;
+            if (init) { init_val = init->codegen(ctx); } 
+            else {
+                
+                // Default storage values
+                switch(var_type->getTypeID()) {
+                    case llvm::Type::IntegerTyID:
+                        init_val = llvm::ConstantInt::get(var_type, 0); break;
+                    case llvm::Type::DoubleTyID:
+                        init_val = llvm::ConstantFP::get(var_type, 0.0); break;
+                    case llvm::Type::ArrayTyID:
+                        init_val = llvm::ConstantAggregateZero::get(var_type); break;
+                    default:
+                        std::cerr << "Unsupported variable type for default initialization" << std::endl;
+                        return nullptr;
+                }
+
+            }
+            
+            ctx.builder.CreateStore(init_val, alloca);
+            return alloca;
+
+        }
 };
 
 class BlockStmt : public StmtNode { 

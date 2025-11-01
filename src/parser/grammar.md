@@ -37,7 +37,7 @@ term            -> factor ((PLUS | MINUS) factor)* ;
 
 factor          -> unary ((MULTI | DIV | MOD) unary)* ;
 
-unary           -> (MINUS | NOT | SIN | COS | TAN | LOG | EXP | SQRT) unary| primary ;
+unary           -> (MINUS | NOT | SIN | COS | TAN | LOG | EXP | SQRT) unary | primary ;
 
 primary         ->   INT_LIT
                    | DBLE_LIT

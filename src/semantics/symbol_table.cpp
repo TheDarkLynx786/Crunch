@@ -11,7 +11,7 @@ void SymbolTable::popScope() {
 }
 
 // New symbol, returns false if one already exists
-/*bool SymbolTable::declare(const std::string& name, TokenType type, llvm::AllocaInst* llvmValue = nullptr) {
+bool SymbolTable::declare(const std::string& name, TokenType type, llvm::AllocaInst* llvmValue = nullptr) {
     if (scopes.empty()) pushScope();
 
     auto& currentScope = scopes.back();
@@ -21,9 +21,9 @@ void SymbolTable::popScope() {
 
     currentScope[name] = Symbol{name, type, llvmValue};
     return true;
-}*/
+}
 
-// Lookup symbol in all scopes (inner → outer)
+// Lookup symbol in all scopes (inner to outer)
 Symbol* SymbolTable::lookup(const std::string& name) {
     for (int i = scopes.size() - 1; i >= 0; --i) {
         auto it = scopes[i].find(name);
