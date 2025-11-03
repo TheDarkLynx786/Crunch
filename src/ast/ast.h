@@ -91,6 +91,96 @@ class BinaryExpr : public ExprNode {
             delete left;
             delete right;
         }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+
+            llvm::Value* l = left->codegen(ctx);
+            llvm::Value* r = right->codegen(ctx);
+
+            if (!l || !r) {
+                std::cerr << "Failed to generate code for binary expression operands." << std::endl;
+                return nullptr;
+            }
+
+            // Type Promotions between operations
+            
+            if (op == "+") {
+                
+                // TODO Add String type promos
+                
+                if (l->getType()->isDoubleTy() || r->getType()->isDoubleTy()) {
+                    if (l->getType()->isIntegerTy()) {
+                        l = ctx.builder.CreateSIToFP(l, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    if (r->getType()->isIntegerTy()) {
+                        r = ctx.builder.CreateSIToFP(r, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    return ctx.builder.CreateFAdd(l, r, "addtmp");
+                } else {
+                    return ctx.builder.CreateAdd(l, r, "addtmp");
+                }
+            
+            } else if (op == "-") {
+                
+                if (l->getType()->isDoubleTy() || r->getType()->isDoubleTy()) {
+                    if (l->getType()->isIntegerTy()) {
+                        l = ctx.builder.CreateSIToFP(l, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    if (r->getType()->isIntegerTy()) {
+                        r = ctx.builder.CreateSIToFP(r, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    return ctx.builder.CreateFSub(l, r, "subtmp");
+                } else {
+                    return ctx.builder.CreateSub(l, r, "subtmp");
+                }
+
+            } else if (op == "*") {
+                
+                if (l->getType()->isDoubleTy() || r->getType()->isDoubleTy()) {
+                    if (l->getType()->isIntegerTy()) {
+                        l = ctx.builder.CreateSIToFP(l, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    if (r->getType()->isIntegerTy()) {
+                        r = ctx.builder.CreateSIToFP(r, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    return ctx.builder.CreateFMul(l, r, "multmp");
+                } else {
+                    return ctx.builder.CreateMul(l, r, "multmp");
+                }
+
+            } else if (op == "/") {
+                
+                if (l->getType()->isDoubleTy() || r->getType()->isDoubleTy()) {
+                    if (l->getType()->isIntegerTy()) {
+                        l = ctx.builder.CreateSIToFP(l, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    if (r->getType()->isIntegerTy()) {
+                        r = ctx.builder.CreateSIToFP(r, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    return ctx.builder.CreateFDiv(l, r, "divtmp");
+                } else {
+                    // Using signed division for integers - POTENTIAL BUG
+                    return ctx.builder.CreateSDiv(l, r, "divtmp");
+                }
+            } else if (op == "%") {
+                
+                if (l->getType()->isDoubleTy() || r->getType()->isDoubleTy()) {
+                    if (l->getType()->isIntegerTy()) {
+                        l = ctx.builder.CreateSIToFP(l, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    if (r->getType()->isIntegerTy()) {
+                        r = ctx.builder.CreateSIToFP(r, llvm::Type::getDoubleTy(ctx.context), "int_to_double");
+                    }
+                    return ctx.builder.CreateSRem(l, r, "modtmp");
+                } else {
+                    return ctx.builder.CreateSRem(l, r, "modtmp");
+                }
+            }
+
+            // Unknown operator error
+            std::cerr << "Unsupported binary operator: " << op << std::endl;
+            return nullptr;
+        }
 };
 
 class UnaryExpr : public ExprNode {
@@ -103,6 +193,43 @@ class UnaryExpr : public ExprNode {
         ~UnaryExpr() {
             delete operand;
         }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            
+            llvm::Value* val = operand->codegen(ctx);
+
+            if (!val) {
+                std::cerr << "Failed to generate code for unary expression operand." << std::endl;
+                return nullptr;
+            }
+
+            if (op == "-") {
+                
+                if (val->getType()->isDoubleTy()) {
+                    return ctx.builder.CreateFNeg(val, "negtmp");
+                } else if (val->getType()->isIntegerTy()) {
+                    return ctx.builder.CreateNeg(val, "negtmp");
+                } else {
+                    std::cerr << "Unsupported type for unary negation." << std::endl;
+                    return nullptr;
+                }
+
+            } else if (op == "!") {
+                
+                // Boolean type
+                if (val->getType()->isIntegerTy(1)) { 
+                    return ctx.builder.CreateNot(val, "nottmp");
+                } else {
+                    std::cerr << "Unsupported type for logical NOT." << std::endl;
+                    return nullptr;
+                }
+
+            }
+
+            // Unknown operator error
+            std::cerr << "Unsupported unary operator: " << op << std::endl;
+            return nullptr;
+        }
 };
 
 class LiteralExpr : public ExprNode {
@@ -112,6 +239,10 @@ class LiteralExpr : public ExprNode {
         LiteralExpr(const std::string& value) : value(value) {}
 
         ~LiteralExpr() {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return nullptr;
+        }
 };
 
 class IdentifierExpr : public ExprNode {
@@ -121,6 +252,20 @@ class IdentifierExpr : public ExprNode {
         IdentifierExpr(const std::string& name) : name(name) {}
 
         ~IdentifierExpr() {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            
+            Symbol* sym = ctx.symTable->lookup(name);
+            
+            if (!sym) {
+                std::cerr << "Undefined variable: " << name << std::endl;
+                return nullptr;
+            }
+
+            // Variable value
+            return ctx.builder.CreateLoad(sym->type, sym->llvmValue, sym->name);
+
+        }
 };
 
 class CallExpr : public ExprNode {
@@ -134,24 +279,40 @@ class CallExpr : public ExprNode {
             delete callee;
             for (auto arg : args) { delete arg; }
         }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return nullptr; // TODO
+        }
 };
 
 class BoolLiteral : public ExprNode {
     public:
         bool value;
         BoolLiteral(bool v) : value(v) {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return llvm::ConstantInt::get(llvm::Type::getInt1Ty(ctx.context), value);
+        }
 };
 
 class IntLiteral : public ExprNode {
     public:
         int value;
         IntLiteral(const Token& t) : value(std::stoi(t.getLexeme())) {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return llvm::ConstantInt::get(llvm::Type::getInt32Ty(ctx.context), value);
+        }
 };
 
 class DoubleLiteral : public ExprNode {
     public:
         double value;
         DoubleLiteral(const Token& t) : value(std::stod(t.getLexeme())) {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return llvm::ConstantFP::get(llvm::Type::getDoubleTy(ctx.context), value);
+        }
 };
 
 class StringLiteral : public ExprNode {
@@ -159,14 +320,19 @@ class StringLiteral : public ExprNode {
         std::string value;
         StringLiteral(const Token& t) : value(t.getLexeme()) {}
         
-        // TODO
-        llvm::Value* codegen(codegen_ctx& ctx) override {}
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return llvm::ConstantDataArray::getString(ctx.context, value, true);
+        }
 };
 
 class VariableExpr : public ExprNode {
     public:
         std::string name;
         VariableExpr(const Token& t) : name(t.getLexeme()) {}
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return nullptr; // Handled in IdentifierExpr
+        }
 };
 
 
@@ -213,21 +379,8 @@ class VarDeclStmt : public StmtNode {
                 
                 case TokenType::KW_STRING: { 
                     
-                    size_t length = 0;
-
-                    if (typeid(init) == typeid(StringLiteral) ) {
-                        
-                        std::string val = dynamic_cast<StringLiteral*>(init)->value;
-                        length = val.length() + 1; // +1 for null terminator
-
-                    } else {
-                        
-                        std::cerr << "Expected a string literal for intializing string variable" << std::endl;
-                        return nullptr;
-
-                    }
-                    
-                    var_type = llvm::ArrayType::get( llvm::Type::getInt8Ty(ctx.context), length ); break;
+                    var_type = llvm::Type::getInt8PtrTy(ctx.context);
+                    break;
                 }
 
                 default:
@@ -239,14 +392,33 @@ class VarDeclStmt : public StmtNode {
             llvm::AllocaInst* alloca = ctx.builder.CreateAlloca(var_type, nullptr, name);
 
             // Add to symbol table and check if no repeated declaration in scope
-            if (!ctx.symTable->declare(name, type, alloca)) {
+            if (!ctx.symTable->declare(name, var_type, alloca)) {
                 std::cerr << "Variable already declared in scope: " << name << std::endl;
                 return nullptr;
             }
 
             // Handle initialization if initalizer is present
             llvm::Value* init_val = nullptr;
-            if (init) { init_val = init->codegen(ctx); } 
+            if (init) {
+                
+                init_val = init->codegen(ctx);
+                
+                // Type Checking and Promotion
+                if (init_val && init_val->getType() != var_type) {
+
+                    // Int to Double Promotion
+                    if ( var_type->isDoubleTy() && init_val->getType()->isIntegerTy() ) {
+                        init_val = ctx.builder.CreateSIToFP(init_val, var_type, "int_to_double");
+                    } else if ( var_type->isIntegerTy() && init_val->getType()->isDoubleTy() ) {
+                        init_val = ctx.builder.CreateFPToSI(init_val, var_type, "double_to_int");
+                    }
+                    else {
+                        std::cerr << "Type mismatch in variable initialization for variable: " << name << std::endl;
+                        return nullptr;
+                    }
+                }
+
+            } 
             else {
                 
                 // Default storage values
@@ -279,6 +451,22 @@ class BlockStmt : public StmtNode {
         ~BlockStmt() { 
             for (auto stmt : statements) { delete stmt; }
         }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            
+            // Push scope
+            ctx.symTable->pushScope();
+
+            llvm::Value* last = nullptr;
+            for (auto stmt: statements) {
+                last = stmt->codegen(ctx);
+            }
+
+            // Pop scope 
+            ctx.symTable->popScope();
+
+            return last;
+        }
 };
 
 class IfStmt : public StmtNode { 
@@ -295,6 +483,10 @@ class IfStmt : public StmtNode {
             delete thenBranch; 
             if (elseBranch) delete elseBranch; 
         }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return nullptr; // TODO
+        }
 };
 
 class PrintStmt : public StmtNode { 
@@ -304,6 +496,10 @@ class PrintStmt : public StmtNode {
         PrintStmt(ExprNode* value) : value(value) {}
 
         ~PrintStmt() { delete value; }
+
+        llvm::Value* codegen(codegen_ctx& ctx) override {
+            return nullptr; // TODO
+        }
 };
 
 class WhileStmt :public StmtNode { 

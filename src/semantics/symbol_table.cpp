@@ -11,7 +11,8 @@ void SymbolTable::popScope() {
 }
 
 // New symbol, returns false if one already exists
-bool SymbolTable::declare(const std::string& name, TokenType type, llvm::AllocaInst* llvmValue = nullptr) {
+bool SymbolTable::declare(const std::string& name, llvm::Type* type, llvm::AllocaInst* llvmValue) {
+    
     if (scopes.empty()) pushScope();
 
     auto& currentScope = scopes.back();
@@ -21,6 +22,7 @@ bool SymbolTable::declare(const std::string& name, TokenType type, llvm::AllocaI
 
     currentScope[name] = Symbol{name, type, llvmValue};
     return true;
+    
 }
 
 // Lookup symbol in all scopes (inner to outer)
