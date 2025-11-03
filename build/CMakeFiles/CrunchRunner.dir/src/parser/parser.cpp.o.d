@@ -396,4 +396,5 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: \
  /usr/lib/llvm-14/include/llvm/Support/TimeProfiler.h \
  /usr/lib/llvm-14/include/llvm/Support/TypeName.h \
  /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
- /usr/include/c++/11/bits/list.tcc
+ /usr/include/c++/11/bits/list.tcc \
+ /home/darklynx/programming-projects/Crunch/Crunch/src/parser/../ast/../semantics/symbol_table.h

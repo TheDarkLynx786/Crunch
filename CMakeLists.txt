@@ -18,6 +18,7 @@ add_executable(CrunchRunner
     src/lexer/lexer.cpp
     src/parser/parser.cpp
     src/ast/ast.cpp
+    src/semantics/symbol_table.cpp
 )
 
 # Link LLVM libraries

@@ -264,6 +264,30 @@ src/parser/parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.s
 .PHONY : src/parser/parser.cpp.s
 
+src/semantics/symbol_table.o: src/semantics/symbol_table.cpp.o
+.PHONY : src/semantics/symbol_table.o
+
+# target to build an object file
+src/semantics/symbol_table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o
+.PHONY : src/semantics/symbol_table.cpp.o
+
+src/semantics/symbol_table.i: src/semantics/symbol_table.cpp.i
+.PHONY : src/semantics/symbol_table.i
+
+# target to preprocess a source file
+src/semantics/symbol_table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.i
+.PHONY : src/semantics/symbol_table.cpp.i
+
+src/semantics/symbol_table.s: src/semantics/symbol_table.cpp.s
+.PHONY : src/semantics/symbol_table.s
+
+# target to generate assembly for a file
+src/semantics/symbol_table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.s
+.PHONY : src/semantics/symbol_table.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -288,6 +312,9 @@ help:
 	@echo "... src/parser/parser.o"
 	@echo "... src/parser/parser.i"
 	@echo "... src/parser/parser.s"
+	@echo "... src/semantics/symbol_table.o"
+	@echo "... src/semantics/symbol_table.i"
+	@echo "... src/semantics/symbol_table.s"
 .PHONY : help
 
 
