@@ -177,6 +177,8 @@ class BinaryExpr : public ExprNode {
                 }
             }
 
+            // TODO Add logical comparisons, equality, and commas
+
             // Unknown operator error
             std::cerr << "Unsupported binary operator: " << op << std::endl;
             return nullptr;
@@ -249,7 +251,7 @@ class IdentifierExpr : public ExprNode {
     public:
         std::string name;
 
-        IdentifierExpr(const std::string& name) : name(name) {}
+        IdentifierExpr(const Token& t) : name(t.getLexeme()) {}
 
         ~IdentifierExpr() {}
 
@@ -266,6 +268,21 @@ class IdentifierExpr : public ExprNode {
             return ctx.builder.CreateLoad(sym->type, sym->llvmValue, sym->name);
 
         }
+};
+
+class AssignmentExpr : public ExprNode {
+    public:
+        std::string name;
+        ExprNode* expr;
+
+        AssignmentExpr(ExprNode* expr, const std::string& name) : name(name), expr(expr) {}
+
+        ~AssignmentExpr() { delete expr; }
+
+        llvm::Value* codegen(codegen_ctx& ctx) {
+            return nullptr; // TODO
+        }
+
 };
 
 class CallExpr : public ExprNode {
@@ -322,16 +339,6 @@ class StringLiteral : public ExprNode {
         
         llvm::Value* codegen(codegen_ctx& ctx) override {
             return llvm::ConstantDataArray::getString(ctx.context, value, true);
-        }
-};
-
-class VariableExpr : public ExprNode {
-    public:
-        std::string name;
-        VariableExpr(const Token& t) : name(t.getLexeme()) {}
-
-        llvm::Value* codegen(codegen_ctx& ctx) override {
-            return nullptr; // Handled in IdentifierExpr
         }
 };
 

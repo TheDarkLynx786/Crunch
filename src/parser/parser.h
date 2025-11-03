@@ -58,6 +58,10 @@ class Parser {
 
         ExprNode* parseExpression();
 
+        ExprNode* parseComma();
+
+        ExprNode* parseAssignment();
+
         ExprNode* parseLogicalOr();
 
         ExprNode* parseLogicalAnd();

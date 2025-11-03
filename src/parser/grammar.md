@@ -23,7 +23,11 @@ continueStmt    -> KW_CONT SEMICOL ;
 
 exprStmt        -> expression SEMICOL ;
 
-expression      -> logicalOr ;
+expression      -> assignment ;
+
+assignment      -> IDENTIFIER ASSIGN assignment | comma ;
+
+comma           -> logicalOr (COMMA logicalOR)* ;
 
 logicalOr       -> logicalAnd (OR logicalAnd)* ;
 

@@ -5,7 +5,7 @@ int y = 8;
 
 "Stringliteral";
 
-print(x + y); # Should return 17
+print("Addition: ", x + y); # Should return 17
 
 print(x / y); # Should return 1
 

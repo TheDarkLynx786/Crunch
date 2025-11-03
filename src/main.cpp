@@ -19,10 +19,8 @@ int main() {
 
     parser->printTree();
 
-
-
-
     delete lexer;
+    delete parser;
 
     return 0;
 }

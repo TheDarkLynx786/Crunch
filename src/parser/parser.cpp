@@ -112,12 +112,42 @@ StmtNode* Parser::parseExprStmt() {
 
 // Expression returns
 
-ExprNode* Parser::parseExpression() { return parseLogicalOr(); }
+ExprNode* Parser::parseExpression() { return parseComma(); }
+
+ExprNode* Parser::parseComma() {
+    ExprNode* expr = parseAssignment();
+    while ( peek()->getType() == TokenType::COMMA) {
+        Token* op = advance();
+        ExprNode* right = parseAssignment();
+        expr = new BinaryExpr(expr, op->getLexeme(), right);
+    }
+    return expr;
+}
+
+ExprNode* Parser::parseAssignment() {
+    ExprNode* expr = parseLogicalOr();
+
+    // Note: using while makes operator left-associative
+    // Assignment is right-associative, so this uses if
+    if (peek()->getType() == TokenType::ASSIGN) {
+        Token* op = advance();
+        ExprNode* value = parseAssignment(); // right-associative
+
+        // Ensure the LHS is a valid assignment target
+        if (auto var = dynamic_cast<IdentifierExpr*>(expr)) {
+            return new AssignmentExpr(value, var->name);
+        } else {
+            throw std::runtime_error("Invalid assignment target.");
+        }
+    }
+
+    return expr;
+}
 
 ExprNode* Parser::parseLogicalOr() {
     ExprNode* expr = parseLogicalAnd();
     while (peek()->getType() == TokenType::OR) {
-        Token* op = advance(); //Token* op = previous(); | Potential Bug
+        Token* op = advance();
         ExprNode* right = parseLogicalAnd();
         expr = new BinaryExpr(expr, op->getLexeme(), right);
     }
@@ -216,8 +246,8 @@ ExprNode* Parser::parsePrimary() {
     if (tok_type == TokenType::DBLE_LIT) return new DoubleLiteral(*advance());
     if (tok_type == TokenType::STR_LIT)  return new StringLiteral(*advance());
     if (tok_type == TokenType::BOOL_LIT) return new BoolLiteral(true); // placeholder handling for BOOL_LIT
-    if (tok_type == TokenType::IDENTIFIER) return new VariableExpr(*advance());
-    
+    if (tok_type == TokenType::IDENTIFIER) return new IdentifierExpr(*advance());
+
     if (tok_type == TokenType::LPAREN) {
         advance(); // Potential Bug
         ExprNode* expr = parseExpression();
@@ -279,9 +309,6 @@ namespace {
         }
         if (auto s = dynamic_cast<StringLiteral*>(expr)) {
             printIndent(indent); std::cout << "StringLiteral '" << s->value << "'\n"; return;
-        }
-        if (auto v = dynamic_cast<VariableExpr*>(expr)) {
-            printIndent(indent); std::cout << "VariableExpr name='" << v->name << "'\n"; return;
         }
 
         printIndent(indent); std::cout << "<unknown ExprNode>\n";
