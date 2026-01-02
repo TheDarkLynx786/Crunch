@@ -1,7 +1,11 @@
 # Arithmetic Test for Crunch
 
-int x = 9;
-int y = 8;
+int x = 5;
+int y = 4;
+
+# I lied
+x = 9;
+y = 8;
 
 "Stringliteral";
 

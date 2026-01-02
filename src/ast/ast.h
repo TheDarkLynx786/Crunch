@@ -25,6 +25,8 @@ struct codegen_ctx {
     codegen_ctx(const std::string &moduleName) : builder(context) {
         module = std::make_unique<llvm::Module>(moduleName, context);
     }
+
+    ~codegen_ctx() { delete symTable; }
 };
 
 // Base Classes
@@ -273,6 +275,7 @@ class IdentifierExpr : public ExprNode {
 class AssignmentExpr : public ExprNode {
     public:
         std::string name;
+        //TokenType type; // TODO add type detection (if variable declaration doesn't already handle it)
         ExprNode* expr;
 
         AssignmentExpr(ExprNode* expr, const std::string& name) : name(name), expr(expr) {}
@@ -510,23 +513,24 @@ class PrintStmt : public StmtNode {
 };
 
 class WhileStmt :public StmtNode { 
-    // Unsupported 
+    // Unsupported for now
 };
 
 class ForStmt : public StmtNode { 
-    // Unsupported
+    // Unsupported for now
 };
 
 class BreakStmt : public StmtNode { 
-    // Unsupported
+    // Unsupported for now
 };
 
 class ContinueStmt :public StmtNode { 
-    // Unsupported
+    // Unsupported for now
 };
 
 class FunctionDeclStmt : public StmtNode { 
     // Unsupported, I'm not supposed to have function declarations lol
+    // Though in the off chance I do add them
     /*public:
         std::string returnType;
         std::string name;

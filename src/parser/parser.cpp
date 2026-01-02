@@ -310,6 +310,25 @@ namespace {
         if (auto s = dynamic_cast<StringLiteral*>(expr)) {
             printIndent(indent); std::cout << "StringLiteral '" << s->value << "'\n"; return;
         }
+        if (auto a = dynamic_cast<AssignmentExpr*>(expr)) {
+            
+            std::string value = "default";
+
+            if (auto b = dynamic_cast<BoolLiteral*>(a->expr)) {
+                value = std::to_string(b->value);
+            }
+            if (auto i = dynamic_cast<IntLiteral*>(a->expr)) {
+                value = std::to_string(i->value);
+            }
+            if (auto d = dynamic_cast<DoubleLiteral*>(a->expr)) {
+                value = std::to_string(d->value);
+            }
+            if (auto s = dynamic_cast<StringLiteral*>(a->expr)) {
+                value = s->value;
+            }
+            
+            printIndent(indent); std::cout << "AssignmentExpr '" << a->name << "' to '" << value << "'\n"; return;
+        }
 
         printIndent(indent); std::cout << "<unknown ExprNode>\n";
     }
