@@ -9,12 +9,12 @@ y = 8;
 
 "Stringliteral";
 
-print("Addition: ", x + y); # Should return 17
+print("Addition: ", x + y, "\n"); # Should return 17
 
-print(x / y); # Should return 1
+print("Division: ", x / y, "\n"); # Should return 1
 
-print(x * y); # Should return 72
+print("Multiplication: ", x * y, "\n"); # Should return 72
 
-print(x - y); # Should return 1
+print("Subtraction: ", x - y, "\n"); # Should return 1
 
-print(x % y); # Should return 1
+print("Modulus: ", x % y, "\n"); # Should return 1
