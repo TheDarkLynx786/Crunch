@@ -133,19 +133,6 @@ intrinsics_gen/fast:
 .PHONY : intrinsics_gen/fast
 
 #=============================================================================
-# Target rules for targets named vt_gen
-
-# Build rule for target.
-vt_gen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 vt_gen
-.PHONY : vt_gen
-
-# fast build rule for target.
-vt_gen/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vt_gen.dir/build.make CMakeFiles/vt_gen.dir/build
-.PHONY : vt_gen/fast
-
-#=============================================================================
 # Target rules for targets named omp_gen
 
 # Build rule for target.
@@ -170,19 +157,6 @@ acc_gen: cmake_check_build_system
 acc_gen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acc_gen.dir/build.make CMakeFiles/acc_gen.dir/build
 .PHONY : acc_gen/fast
-
-#=============================================================================
-# Target rules for targets named target_parser_gen
-
-# Build rule for target.
-target_parser_gen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 target_parser_gen
-.PHONY : target_parser_gen
-
-# fast build rule for target.
-target_parser_gen/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/target_parser_gen.dir/build.make CMakeFiles/target_parser_gen.dir/build
-.PHONY : target_parser_gen/fast
 
 #=============================================================================
 # Target rules for targets named CrunchRunner
@@ -293,6 +267,30 @@ src/parser/parser.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.s
 .PHONY : src/parser/parser.cpp.s
 
+src/semantics/symbol_table.o: src/semantics/symbol_table.cpp.o
+.PHONY : src/semantics/symbol_table.o
+
+# target to build an object file
+src/semantics/symbol_table.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o
+.PHONY : src/semantics/symbol_table.cpp.o
+
+src/semantics/symbol_table.i: src/semantics/symbol_table.cpp.i
+.PHONY : src/semantics/symbol_table.i
+
+# target to preprocess a source file
+src/semantics/symbol_table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.i
+.PHONY : src/semantics/symbol_table.cpp.i
+
+src/semantics/symbol_table.s: src/semantics/symbol_table.cpp.s
+.PHONY : src/semantics/symbol_table.s
+
+# target to generate assembly for a file
+src/semantics/symbol_table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CrunchRunner.dir/build.make CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.s
+.PHONY : src/semantics/symbol_table.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -304,8 +302,6 @@ help:
 	@echo "... acc_gen"
 	@echo "... intrinsics_gen"
 	@echo "... omp_gen"
-	@echo "... target_parser_gen"
-	@echo "... vt_gen"
 	@echo "... CrunchRunner"
 	@echo "... src/ast/ast.o"
 	@echo "... src/ast/ast.i"
@@ -319,6 +315,9 @@ help:
 	@echo "... src/parser/parser.o"
 	@echo "... src/parser/parser.i"
 	@echo "... src/parser/parser.s"
+	@echo "... src/semantics/symbol_table.o"
+	@echo "... src/semantics/symbol_table.i"
+	@echo "... src/semantics/symbol_table.s"
 .PHONY : help
 
 

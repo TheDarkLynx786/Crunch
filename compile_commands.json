@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/darklynx/programming-projects/Crunch/Crunch",
+  "command": "/usr/bin/c++  -I/usr/lib/llvm-14/include   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wall -Wpedantic -o CMakeFiles/CrunchRunner.dir/src/main.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/main.cpp",
+  "file": "/home/darklynx/programming-projects/Crunch/Crunch/src/main.cpp"
+},
+{
+  "directory": "/home/darklynx/programming-projects/Crunch/Crunch",
+  "command": "/usr/bin/c++  -I/usr/lib/llvm-14/include   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wall -Wpedantic -o CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/lexer/lexer.cpp",
+  "file": "/home/darklynx/programming-projects/Crunch/Crunch/src/lexer/lexer.cpp"
+},
+{
+  "directory": "/home/darklynx/programming-projects/Crunch/Crunch",
+  "command": "/usr/bin/c++  -I/usr/lib/llvm-14/include   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wall -Wpedantic -o CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/parser/parser.cpp",
+  "file": "/home/darklynx/programming-projects/Crunch/Crunch/src/parser/parser.cpp"
+},
+{
+  "directory": "/home/darklynx/programming-projects/Crunch/Crunch",
+  "command": "/usr/bin/c++  -I/usr/lib/llvm-14/include   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wall -Wpedantic -o CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/ast/ast.cpp",
+  "file": "/home/darklynx/programming-projects/Crunch/Crunch/src/ast/ast.cpp"
+},
+{
+  "directory": "/home/darklynx/programming-projects/Crunch/Crunch",
+  "command": "/usr/bin/c++  -I/usr/lib/llvm-14/include   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -Wall -Wpedantic -o CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp",
+  "file": "/home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp"
+}
+]

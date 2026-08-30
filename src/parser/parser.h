@@ -31,6 +31,7 @@ class Parser {
             throw std::runtime_error(message);
         }
 
+        Program* getASTRoot() { return ast_root; }
 
         // Grammar rule based parsing functions
 

@@ -28,6 +28,13 @@ target_link_libraries(CrunchRunner
     ${llvm_libs}
 )
 
+# Debugging
+if(MSVC)
+    target_compile_options(CrunchRunner PRIVATE /W4 /WX)
+else()
+    target_compile_options(CrunchRunner PRIVATE -Wall -Wpedantic)
+endif()
+
 set(CMAKE_CXX_STANDARD 14) 
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 set(CMAKE_CXX_EXTENSIONS OFF)

@@ -447,3 +447,39 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Performing C SOURCE FILE Test HAVE_FFI_CALL succeeded with the following output:
+Change Dir: /home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ea053/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ea053.dir/build.make CMakeFiles/cmTC_ea053.dir/build
+gmake[1]: Entering directory '/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ea053.dir/src.c.o
+/usr/bin/cc -DHAVE_FFI_CALL   -o CMakeFiles/cmTC_ea053.dir/src.c.o -c /home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_ea053
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ea053.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_ea053.dir/src.c.o -o cmTC_ea053  /usr/lib/x86_64-linux-gnu/libffi.so 
+gmake[1]: Leaving directory '/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+
+    struct ffi_cif;
+    typedef struct ffi_cif ffi_cif;
+    void ffi_call(ffi_cif *cif, void (*fn)(void), void *rvalue, void **avalue);
+    int main() { ffi_call(0, 0, 0, 0); }
+Performing C SOURCE FILE Test Terminfo_LINKABLE succeeded with the following output:
+Change Dir: /home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_118eb/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_118eb.dir/build.make CMakeFiles/cmTC_118eb.dir/build
+gmake[1]: Entering directory '/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_118eb.dir/src.c.o
+/usr/bin/cc -DTerminfo_LINKABLE   -o CMakeFiles/cmTC_118eb.dir/src.c.o -c /home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_118eb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_118eb.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_118eb.dir/src.c.o -o cmTC_118eb  /usr/lib/x86_64-linux-gnu/libtinfo.so 
+gmake[1]: Leaving directory '/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+
+    int setupterm(char *term, int filedes, int *errret);
+    int main() { return setupterm(0, 0, 0); }

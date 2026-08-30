@@ -16,8 +16,24 @@ int main() {
     std::vector<Token*> tokens = lexer->getTokens();
 
     Parser* parser = new Parser(tokens);
+    
+    printf("Get Root\n");
 
-    parser->printTree();
+    // Get AST Root
+    Program* rootNode = parser->getASTRoot();
+
+    // 1. LLVM Setup
+    const std::string moduleName = "CrunchModule";
+
+    codegen_ctx ctx(moduleName);
+
+    if (rootNode) {
+        rootNode->codegen(ctx);
+    }
+
+    // Print IR Code
+    printf("Generated IR Code:\n");
+    ctx.module->print(llvm::outs(), nullptr);
 
     delete lexer;
     delete parser;

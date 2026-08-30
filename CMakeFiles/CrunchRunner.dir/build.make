@@ -128,12 +128,27 @@ CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/darklynx/programming-projects/Crunch/Crunch/src/ast/ast.cpp -o CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.s
 
+CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: CMakeFiles/CrunchRunner.dir/flags.make
+CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: src/semantics/symbol_table.cpp
+CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: CMakeFiles/CrunchRunner.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o -MF CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o.d -o CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o -c /home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp
+
+CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp > CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.i
+
+CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp -o CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.s
+
 # Object files for target CrunchRunner
 CrunchRunner_OBJECTS = \
 "CMakeFiles/CrunchRunner.dir/src/main.cpp.o" \
 "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o" \
 "CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o" \
-"CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o"
+"CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o" \
+"CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o"
 
 # External object files for target CrunchRunner
 CrunchRunner_EXTERNAL_OBJECTS =
@@ -142,22 +157,31 @@ CrunchRunner: CMakeFiles/CrunchRunner.dir/src/main.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/src/ast/ast.cpp.o
+CrunchRunner: CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o
 CrunchRunner: CMakeFiles/CrunchRunner.dir/build.make
-CrunchRunner: llvm/lib/libLLVMCore.a
-CrunchRunner: llvm/lib/libLLVMIRReader.a
-CrunchRunner: llvm/lib/libLLVMSupport.a
-CrunchRunner: llvm/lib/libLLVMAsmParser.a
-CrunchRunner: llvm/lib/libLLVMBitReader.a
-CrunchRunner: llvm/lib/libLLVMCore.a
-CrunchRunner: llvm/lib/libLLVMBinaryFormat.a
-CrunchRunner: llvm/lib/libLLVMRemarks.a
-CrunchRunner: llvm/lib/libLLVMTargetParser.a
-CrunchRunner: llvm/lib/libLLVMBitstreamReader.a
-CrunchRunner: llvm/lib/libLLVMSupport.a
-CrunchRunner: llvm/lib/libLLVMDemangle.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMCore.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMIRReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMSupport.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMAnalysis.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMAsmParser.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMProfileData.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDebugInfoDWARF.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMObject.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBitReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMCore.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMRemarks.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBitstreamReader.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMMCParser.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMTextAPI.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMMC.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMBinaryFormat.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDebugInfoCodeView.a
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMSupport.a
 CrunchRunner: /usr/lib/x86_64-linux-gnu/libz.so
+CrunchRunner: /usr/lib/x86_64-linux-gnu/libtinfo.so
+CrunchRunner: /usr/lib/llvm-14/lib/libLLVMDemangle.a
 CrunchRunner: CMakeFiles/CrunchRunner.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable CrunchRunner"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/darklynx/programming-projects/Crunch/Crunch/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable CrunchRunner"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CrunchRunner.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

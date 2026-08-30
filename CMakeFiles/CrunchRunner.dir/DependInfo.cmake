@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/darklynx/programming-projects/Crunch/Crunch/src/lexer/lexer.cpp" "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/lexer/lexer.cpp.o.d"
   "/home/darklynx/programming-projects/Crunch/Crunch/src/main.cpp" "CMakeFiles/CrunchRunner.dir/src/main.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/main.cpp.o.d"
   "/home/darklynx/programming-projects/Crunch/Crunch/src/parser/parser.cpp" "CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o.d"
+  "/home/darklynx/programming-projects/Crunch/Crunch/src/semantics/symbol_table.cpp" "CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o" "gcc" "CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o.d"
   )
 
 # Targets to which this target links.
