@@ -545,11 +545,13 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/bits/regex_executor.tcc \
   ../src/parser/parser.h \
   ../src/ast/ast.h \
-  /usr/lib/llvm-14/include/llvm/IR/LLVMContext.h \
+  ../src/semantics/symbol_table.h \
+  /usr/lib/llvm-14/include/llvm/IR/Value.h \
   /usr/lib/llvm-14/include/llvm-c/Types.h \
   /usr/lib/llvm-14/include/llvm-c/DataTypes.h \
   /usr/include/inttypes.h \
   /usr/lib/llvm-14/include/llvm-c/ExternC.h \
+  /usr/lib/llvm-14/include/llvm/ADT/STLExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/Optional.h \
   /usr/lib/llvm-14/include/llvm/ADT/Hashing.h \
   /usr/lib/llvm-14/include/llvm/Support/DataTypes.h \
@@ -563,36 +565,20 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/assert.h \
   /usr/lib/llvm-14/include/llvm/ADT/None.h \
   /usr/lib/llvm-14/include/llvm/ADT/STLForwardCompat.h \
-  /usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringRef.h \
-  /usr/lib/llvm-14/include/llvm/ADT/DenseMapInfo.h \
-  /usr/lib/llvm-14/include/llvm/ADT/STLFunctionalExtras.h \
-  /usr/lib/llvm-14/include/llvm/ADT/iterator_range.h \
-  /usr/include/c++/11/limits \
-  /usr/lib/llvm-14/include/llvm/Support/CBindingWrapping.h \
-  /usr/lib/llvm-14/include/llvm/Support/Casting.h \
-  /usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def \
-  /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h \
-  /usr/lib/llvm-14/include/llvm/ADT/SmallVector.h \
-  /usr/lib/llvm-14/include/llvm/ADT/STLExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/STLArrayExtras.h \
+  /usr/lib/llvm-14/include/llvm/ADT/STLFunctionalExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/identity.h \
   /usr/lib/llvm-14/include/llvm/ADT/iterator.h \
+  /usr/lib/llvm-14/include/llvm/ADT/iterator_range.h \
   /usr/lib/llvm-14/include/llvm/Config/abi-breaking.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Twine.h \
-  /usr/lib/llvm-14/include/llvm/IR/BasicBlock.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist.h \
-  /usr/lib/llvm-14/include/llvm/ADT/simple_ilist.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_base.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_base.h \
-  /usr/lib/llvm-14/include/llvm/ADT/PointerIntPair.h \
-  /usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instruction.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Bitfields.h \
+  /usr/include/c++/11/limits \
+  /usr/lib/llvm-14/include/llvm/ADT/StringRef.h \
+  /usr/lib/llvm-14/include/llvm/ADT/DenseMapInfo.h \
+  /usr/lib/llvm-14/include/llvm/IR/Use.h \
+  /usr/lib/llvm-14/include/llvm/Support/CBindingWrapping.h \
+  /usr/lib/llvm-14/include/llvm/Support/Casting.h \
+  /usr/lib/llvm-14/include/llvm/Support/Alignment.h \
+  /usr/lib/llvm-14/include/llvm/Support/MathExtras.h \
   /usr/include/c++/11/climits \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
@@ -603,13 +589,6 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
-  /usr/lib/llvm-14/include/llvm/IR/DebugLoc.h \
-  /usr/lib/llvm-14/include/llvm/IR/TrackingMDRef.h \
-  /usr/lib/llvm-14/include/llvm/IR/Metadata.h \
-  /usr/lib/llvm-14/include/llvm/ADT/DenseMap.h \
-  /usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h \
-  /usr/lib/llvm-14/include/llvm/Support/AlignOf.h \
-  /usr/lib/llvm-14/include/llvm/Support/MathExtras.h \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -634,50 +613,76 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/lib/llvm-14/include/llvm/IR/Value.def \
+  /usr/lib/llvm-14/include/llvm/IR/Instructions.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h \
+  /usr/lib/llvm-14/include/llvm/ADT/SmallVector.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Bitfields.h \
+  /usr/lib/llvm-14/include/llvm/ADT/MapVector.h \
+  /usr/lib/llvm-14/include/llvm/ADT/DenseMap.h \
+  /usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h \
+  /usr/lib/llvm-14/include/llvm/Support/AlignOf.h \
   /usr/lib/llvm-14/include/llvm/Support/MemAlloc.h \
   /usr/lib/llvm-14/include/llvm/Support/ReverseIteration.h \
-  /usr/lib/llvm-14/include/llvm/ADT/PointerUnion.h \
-  /usr/lib/llvm-14/include/llvm/IR/Constant.h \
-  /usr/lib/llvm-14/include/llvm/IR/User.h \
-  /usr/lib/llvm-14/include/llvm/IR/Use.h \
-  /usr/lib/llvm-14/include/llvm/IR/Value.h \
-  /usr/lib/llvm-14/include/llvm/Support/Alignment.h \
-  /usr/lib/llvm-14/include/llvm/IR/Value.def \
-  /usr/lib/llvm-14/include/llvm/IR/Metadata.def \
-  /usr/lib/llvm-14/include/llvm/IR/SymbolTableListTraits.h \
-  /usr/lib/llvm-14/include/llvm/Support/AtomicOrdering.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instruction.def \
-  /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
-  /usr/lib/llvm-14/include/llvm/IR/Constants.h \
-  /usr/lib/llvm-14/include/llvm/ADT/APFloat.h \
-  /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
-  /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
-  /usr/lib/llvm-14/include/llvm/Support/raw_ostream.h \
-  /usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h \
-  /usr/lib/llvm-14/include/llvm/IR/Type.h \
-  /usr/lib/llvm-14/include/llvm/Support/TypeSize.h \
-  /usr/lib/llvm-14/include/llvm/IR/OperandTraits.h \
-  /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
-  /usr/lib/llvm-14/include/llvm/IR/InstrTypes.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Sequence.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringMap.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h \
-  /usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h \
+  /usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Twine.h \
   /usr/lib/llvm-14/include/llvm/IR/Attributes.h \
   /usr/lib/llvm-14/include/llvm/ADT/SmallString.h \
   /usr/include/c++/11/set \
   /usr/include/c++/11/bits/stl_set.h \
   /usr/include/c++/11/bits/stl_multiset.h \
   /usr/lib/llvm-14/include/llvm/IR/Attributes.inc \
-  /usr/lib/llvm-14/include/llvm/IR/CallingConv.h \
+  /usr/lib/llvm-14/include/llvm/IR/BasicBlock.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist.h \
+  /usr/lib/llvm-14/include/llvm/ADT/simple_ilist.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_base.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_base.h \
+  /usr/lib/llvm-14/include/llvm/ADT/PointerIntPair.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h \
+  /usr/lib/llvm-14/include/llvm/IR/Instruction.h \
+  /usr/lib/llvm-14/include/llvm/IR/DebugLoc.h \
+  /usr/lib/llvm-14/include/llvm/IR/TrackingMDRef.h \
+  /usr/lib/llvm-14/include/llvm/IR/Metadata.h \
+  /usr/lib/llvm-14/include/llvm/ADT/PointerUnion.h \
+  /usr/lib/llvm-14/include/llvm/IR/Constant.h \
+  /usr/lib/llvm-14/include/llvm/IR/User.h \
+  /usr/lib/llvm-14/include/llvm/IR/LLVMContext.h \
+  /usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h \
+  /usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def \
+  /usr/lib/llvm-14/include/llvm/IR/Metadata.def \
+  /usr/lib/llvm-14/include/llvm/IR/SymbolTableListTraits.h \
+  /usr/lib/llvm-14/include/llvm/Support/AtomicOrdering.h \
+  /usr/lib/llvm-14/include/llvm/IR/Instruction.def \
+  /usr/lib/llvm-14/include/llvm/IR/CFG.h \
+  /usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h \
   /usr/lib/llvm-14/include/llvm/IR/Function.h \
   /usr/lib/llvm-14/include/llvm/ADT/DenseSet.h \
   /usr/lib/llvm-14/include/llvm/IR/Argument.h \
+  /usr/lib/llvm-14/include/llvm/IR/CallingConv.h \
+  /usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h \
+  /usr/lib/llvm-14/include/llvm/IR/Type.h \
+  /usr/lib/llvm-14/include/llvm/Support/TypeSize.h \
+  /usr/lib/llvm-14/include/llvm/Support/raw_ostream.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalObject.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalValue.h \
   /usr/lib/llvm-14/include/llvm/Support/MD5.h \
   /usr/lib/llvm-14/include/llvm/Support/Endian.h \
+  /usr/lib/llvm-14/include/llvm/IR/OperandTraits.h \
+  /usr/lib/llvm-14/include/llvm/IR/InstrTypes.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Sequence.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringMap.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h \
+  /usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h \
+  /usr/lib/llvm-14/include/llvm/IR/Constants.h \
+  /usr/lib/llvm-14/include/llvm/ADT/APFloat.h \
+  /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
+  /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
+  /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
+  /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
+  /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
   /usr/lib/llvm-14/include/llvm/IR/DataLayout.h \
   /usr/lib/llvm-14/include/llvm/Support/TrailingObjects.h \
   /usr/lib/llvm-14/include/llvm/IR/DebugInfoMetadata.h \
@@ -703,10 +708,6 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/lib/llvm-14/include/llvm/IR/DebugInfoFlags.def \
   /usr/lib/llvm-14/include/llvm/IR/FPEnv.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalVariable.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instructions.h \
-  /usr/lib/llvm-14/include/llvm/ADT/MapVector.h \
-  /usr/lib/llvm-14/include/llvm/IR/CFG.h \
-  /usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h \
   /usr/lib/llvm-14/include/llvm/IR/Intrinsics.h \
   /usr/lib/llvm-14/include/llvm/IR/IntrinsicEnums.inc \
   /usr/lib/llvm-14/include/llvm/IR/Module.h \
@@ -728,8 +729,7 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/lib/llvm-14/include/llvm/Support/TypeName.h \
   /usr/include/c++/11/list \
   /usr/include/c++/11/bits/stl_list.h \
-  /usr/include/c++/11/bits/list.tcc \
-  ../src/semantics/symbol_table.h
+  /usr/include/c++/11/bits/list.tcc
 
 CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/include/stdc-predef.h \
@@ -1002,11 +1002,13 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/include/c++/11/bits/regex_executor.h \
   /usr/include/c++/11/bits/regex_executor.tcc \
   ../src/ast/ast.h \
-  /usr/lib/llvm-14/include/llvm/IR/LLVMContext.h \
+  ../src/semantics/symbol_table.h \
+  /usr/lib/llvm-14/include/llvm/IR/Value.h \
   /usr/lib/llvm-14/include/llvm-c/Types.h \
   /usr/lib/llvm-14/include/llvm-c/DataTypes.h \
   /usr/include/inttypes.h \
   /usr/lib/llvm-14/include/llvm-c/ExternC.h \
+  /usr/lib/llvm-14/include/llvm/ADT/STLExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/Optional.h \
   /usr/lib/llvm-14/include/llvm/ADT/Hashing.h \
   /usr/lib/llvm-14/include/llvm/Support/DataTypes.h \
@@ -1020,36 +1022,20 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/include/assert.h \
   /usr/lib/llvm-14/include/llvm/ADT/None.h \
   /usr/lib/llvm-14/include/llvm/ADT/STLForwardCompat.h \
-  /usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringRef.h \
-  /usr/lib/llvm-14/include/llvm/ADT/DenseMapInfo.h \
-  /usr/lib/llvm-14/include/llvm/ADT/STLFunctionalExtras.h \
-  /usr/lib/llvm-14/include/llvm/ADT/iterator_range.h \
-  /usr/include/c++/11/limits \
-  /usr/lib/llvm-14/include/llvm/Support/CBindingWrapping.h \
-  /usr/lib/llvm-14/include/llvm/Support/Casting.h \
-  /usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def \
-  /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h \
-  /usr/lib/llvm-14/include/llvm/ADT/SmallVector.h \
-  /usr/lib/llvm-14/include/llvm/ADT/STLExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/STLArrayExtras.h \
+  /usr/lib/llvm-14/include/llvm/ADT/STLFunctionalExtras.h \
   /usr/lib/llvm-14/include/llvm/ADT/identity.h \
   /usr/lib/llvm-14/include/llvm/ADT/iterator.h \
+  /usr/lib/llvm-14/include/llvm/ADT/iterator_range.h \
   /usr/lib/llvm-14/include/llvm/Config/abi-breaking.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Twine.h \
-  /usr/lib/llvm-14/include/llvm/IR/BasicBlock.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist.h \
-  /usr/lib/llvm-14/include/llvm/ADT/simple_ilist.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_base.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_base.h \
-  /usr/lib/llvm-14/include/llvm/ADT/PointerIntPair.h \
-  /usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node.h \
-  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instruction.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Bitfields.h \
+  /usr/include/c++/11/limits \
+  /usr/lib/llvm-14/include/llvm/ADT/StringRef.h \
+  /usr/lib/llvm-14/include/llvm/ADT/DenseMapInfo.h \
+  /usr/lib/llvm-14/include/llvm/IR/Use.h \
+  /usr/lib/llvm-14/include/llvm/Support/CBindingWrapping.h \
+  /usr/lib/llvm-14/include/llvm/Support/Casting.h \
+  /usr/lib/llvm-14/include/llvm/Support/Alignment.h \
+  /usr/lib/llvm-14/include/llvm/Support/MathExtras.h \
   /usr/include/c++/11/climits \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
@@ -1060,13 +1046,6 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
-  /usr/lib/llvm-14/include/llvm/IR/DebugLoc.h \
-  /usr/lib/llvm-14/include/llvm/IR/TrackingMDRef.h \
-  /usr/lib/llvm-14/include/llvm/IR/Metadata.h \
-  /usr/lib/llvm-14/include/llvm/ADT/DenseMap.h \
-  /usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h \
-  /usr/lib/llvm-14/include/llvm/Support/AlignOf.h \
-  /usr/lib/llvm-14/include/llvm/Support/MathExtras.h \
   /usr/include/c++/11/cmath \
   /usr/include/math.h \
   /usr/include/x86_64-linux-gnu/bits/math-vector.h \
@@ -1091,50 +1070,76 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/lib/llvm-14/include/llvm/IR/Value.def \
+  /usr/lib/llvm-14/include/llvm/IR/Instructions.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h \
+  /usr/lib/llvm-14/include/llvm/ADT/SmallVector.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Bitfields.h \
+  /usr/lib/llvm-14/include/llvm/ADT/MapVector.h \
+  /usr/lib/llvm-14/include/llvm/ADT/DenseMap.h \
+  /usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h \
+  /usr/lib/llvm-14/include/llvm/Support/AlignOf.h \
   /usr/lib/llvm-14/include/llvm/Support/MemAlloc.h \
   /usr/lib/llvm-14/include/llvm/Support/ReverseIteration.h \
-  /usr/lib/llvm-14/include/llvm/ADT/PointerUnion.h \
-  /usr/lib/llvm-14/include/llvm/IR/Constant.h \
-  /usr/lib/llvm-14/include/llvm/IR/User.h \
-  /usr/lib/llvm-14/include/llvm/IR/Use.h \
-  /usr/lib/llvm-14/include/llvm/IR/Value.h \
-  /usr/lib/llvm-14/include/llvm/Support/Alignment.h \
-  /usr/lib/llvm-14/include/llvm/IR/Value.def \
-  /usr/lib/llvm-14/include/llvm/IR/Metadata.def \
-  /usr/lib/llvm-14/include/llvm/IR/SymbolTableListTraits.h \
-  /usr/lib/llvm-14/include/llvm/Support/AtomicOrdering.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instruction.def \
-  /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
-  /usr/lib/llvm-14/include/llvm/IR/Constants.h \
-  /usr/lib/llvm-14/include/llvm/ADT/APFloat.h \
-  /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
-  /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
-  /usr/lib/llvm-14/include/llvm/Support/raw_ostream.h \
-  /usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h \
-  /usr/lib/llvm-14/include/llvm/IR/Type.h \
-  /usr/lib/llvm-14/include/llvm/Support/TypeSize.h \
-  /usr/lib/llvm-14/include/llvm/IR/OperandTraits.h \
-  /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
-  /usr/lib/llvm-14/include/llvm/IR/InstrTypes.h \
-  /usr/lib/llvm-14/include/llvm/ADT/Sequence.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringMap.h \
-  /usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h \
-  /usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h \
+  /usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Twine.h \
   /usr/lib/llvm-14/include/llvm/IR/Attributes.h \
   /usr/lib/llvm-14/include/llvm/ADT/SmallString.h \
   /usr/include/c++/11/set \
   /usr/include/c++/11/bits/stl_set.h \
   /usr/include/c++/11/bits/stl_multiset.h \
   /usr/lib/llvm-14/include/llvm/IR/Attributes.inc \
-  /usr/lib/llvm-14/include/llvm/IR/CallingConv.h \
+  /usr/lib/llvm-14/include/llvm/IR/BasicBlock.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist.h \
+  /usr/lib/llvm-14/include/llvm/ADT/simple_ilist.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_base.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_base.h \
+  /usr/lib/llvm-14/include/llvm/ADT/PointerIntPair.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node.h \
+  /usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h \
+  /usr/lib/llvm-14/include/llvm/IR/Instruction.h \
+  /usr/lib/llvm-14/include/llvm/IR/DebugLoc.h \
+  /usr/lib/llvm-14/include/llvm/IR/TrackingMDRef.h \
+  /usr/lib/llvm-14/include/llvm/IR/Metadata.h \
+  /usr/lib/llvm-14/include/llvm/ADT/PointerUnion.h \
+  /usr/lib/llvm-14/include/llvm/IR/Constant.h \
+  /usr/lib/llvm-14/include/llvm/IR/User.h \
+  /usr/lib/llvm-14/include/llvm/IR/LLVMContext.h \
+  /usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h \
+  /usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def \
+  /usr/lib/llvm-14/include/llvm/IR/Metadata.def \
+  /usr/lib/llvm-14/include/llvm/IR/SymbolTableListTraits.h \
+  /usr/lib/llvm-14/include/llvm/Support/AtomicOrdering.h \
+  /usr/lib/llvm-14/include/llvm/IR/Instruction.def \
+  /usr/lib/llvm-14/include/llvm/IR/CFG.h \
+  /usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h \
   /usr/lib/llvm-14/include/llvm/IR/Function.h \
   /usr/lib/llvm-14/include/llvm/ADT/DenseSet.h \
   /usr/lib/llvm-14/include/llvm/IR/Argument.h \
+  /usr/lib/llvm-14/include/llvm/IR/CallingConv.h \
+  /usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h \
+  /usr/lib/llvm-14/include/llvm/IR/Type.h \
+  /usr/lib/llvm-14/include/llvm/Support/TypeSize.h \
+  /usr/lib/llvm-14/include/llvm/Support/raw_ostream.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalObject.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalValue.h \
   /usr/lib/llvm-14/include/llvm/Support/MD5.h \
   /usr/lib/llvm-14/include/llvm/Support/Endian.h \
+  /usr/lib/llvm-14/include/llvm/IR/OperandTraits.h \
+  /usr/lib/llvm-14/include/llvm/IR/InstrTypes.h \
+  /usr/lib/llvm-14/include/llvm/ADT/Sequence.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringMap.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h \
+  /usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h \
+  /usr/lib/llvm-14/include/llvm/IR/Constants.h \
+  /usr/lib/llvm-14/include/llvm/ADT/APFloat.h \
+  /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
+  /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
+  /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
+  /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
+  /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
+  /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
   /usr/lib/llvm-14/include/llvm/IR/DataLayout.h \
   /usr/lib/llvm-14/include/llvm/Support/TrailingObjects.h \
   /usr/lib/llvm-14/include/llvm/IR/DebugInfoMetadata.h \
@@ -1160,10 +1165,6 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/lib/llvm-14/include/llvm/IR/DebugInfoFlags.def \
   /usr/lib/llvm-14/include/llvm/IR/FPEnv.h \
   /usr/lib/llvm-14/include/llvm/IR/GlobalVariable.h \
-  /usr/lib/llvm-14/include/llvm/IR/Instructions.h \
-  /usr/lib/llvm-14/include/llvm/ADT/MapVector.h \
-  /usr/lib/llvm-14/include/llvm/IR/CFG.h \
-  /usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h \
   /usr/lib/llvm-14/include/llvm/IR/Intrinsics.h \
   /usr/lib/llvm-14/include/llvm/IR/IntrinsicEnums.inc \
   /usr/lib/llvm-14/include/llvm/IR/Module.h \
@@ -1185,8 +1186,7 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/lib/llvm-14/include/llvm/Support/TypeName.h \
   /usr/include/c++/11/list \
   /usr/include/c++/11/bits/stl_list.h \
-  /usr/include/c++/11/bits/list.tcc \
-  ../src/semantics/symbol_table.h
+  /usr/include/c++/11/bits/list.tcc
 
 CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/symbol_table.cpp \
   /usr/include/stdc-predef.h \
@@ -1541,8 +1541,6 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
   /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h
 
 
-../src/semantics/symbol_table.h:
-
 /usr/include/c++/11/bits/list.tcc:
 
 /usr/lib/llvm-14/include/llvm/ADT/FunctionExtras.h:
@@ -1560,14 +1558,6 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 /usr/lib/llvm-14/include/llvm/IR/ProfileSummary.h:
 
 /usr/lib/llvm-14/include/llvm/IR/Intrinsics.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h:
-
-/usr/lib/llvm-14/include/llvm/IR/CFG.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/MapVector.h:
-
-/usr/lib/llvm-14/include/llvm/IR/Instructions.h:
 
 /usr/lib/llvm-14/include/llvm/IR/GlobalVariable.h:
 
@@ -1595,41 +1585,37 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/llvm-14/include/llvm/ADT/BitmaskEnum.h:
 
+/usr/lib/llvm-14/include/llvm/IR/IRBuilder.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/APFloat.h:
+
+/usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h:
+
+/usr/lib/llvm-14/include/llvm/IR/InstrTypes.h:
+
 /usr/include/c++/11/list:
 
 /usr/lib/llvm-14/include/llvm/IR/GlobalValue.h:
+
+/usr/lib/llvm-14/include/llvm/Support/raw_ostream.h:
+
+/usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h:
+
+/usr/lib/llvm-14/include/llvm/IR/CallingConv.h:
 
 /usr/lib/llvm-14/include/llvm/IR/Argument.h:
 
 /usr/lib/llvm-14/include/llvm/ADT/DenseSet.h:
 
-/usr/lib/llvm-14/include/llvm/IR/CallingConv.h:
-
-/usr/include/c++/11/bits/stl_multiset.h:
-
-/usr/include/c++/11/bits/stl_set.h:
-
-/usr/include/c++/11/set:
-
-/usr/lib/llvm-14/include/llvm/ADT/SmallString.h:
-
-/usr/lib/llvm-14/include/llvm/IR/Attributes.h:
-
-/usr/lib/llvm-14/include/llvm/Support/AllocatorBase.h:
+/usr/lib/llvm-14/include/llvm/ADT/StringMap.h:
 
 /usr/lib/llvm-14/include/llvm/IR/Function.h:
 
-/usr/lib/llvm-14/include/llvm/ADT/StringMap.h:
+/usr/lib/llvm-14/include/llvm/ADT/GraphTraits.h:
 
-/usr/lib/llvm-14/include/llvm/IR/InstrTypes.h:
-
-/usr/lib/llvm-14/include/llvm/IR/DerivedTypes.h:
-
-/usr/lib/llvm-14/include/llvm/Support/raw_ostream.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/APFloat.h:
+/usr/lib/llvm-14/include/llvm/IR/CFG.h:
 
 /usr/lib/llvm-14/include/llvm/IR/Instruction.def:
 
@@ -1641,17 +1627,57 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/llvm-14/include/llvm/IR/Metadata.def:
 
-/usr/lib/llvm-14/include/llvm/IR/Value.def:
+/usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def:
 
-/usr/lib/llvm-14/include/llvm/Support/Alignment.h:
+/usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h:
 
-/usr/lib/llvm-14/include/llvm/IR/Value.h:
+/usr/lib/llvm-14/include/llvm/IR/LLVMContext.h:
 
 /usr/lib/llvm-14/include/llvm/IR/Constant.h:
+
+/usr/lib/llvm-14/include/llvm/IR/DebugLoc.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/ilist_node.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/ilist.h:
+
+/usr/include/c++/11/bits/stl_multiset.h:
+
+/usr/include/c++/11/bits/stl_set.h:
+
+/usr/include/c++/11/set:
+
+/usr/lib/llvm-14/include/llvm/ADT/SmallString.h:
+
+/usr/lib/llvm-14/include/llvm/IR/Attributes.h:
+
+/usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h:
 
 /usr/lib/llvm-14/include/llvm/Support/ReverseIteration.h:
 
 /usr/lib/llvm-14/include/llvm/Support/MemAlloc.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h:
+
+/usr/lib/llvm-14/include/llvm/IR/Verifier.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/DenseMap.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/MapVector.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/Bitfields.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/SmallVector.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h:
+
+/usr/lib/llvm-14/include/llvm/IR/Instructions.h:
+
+/usr/lib/llvm-14/include/llvm/IR/Value.def:
 
 /usr/include/c++/11/tr1/riemann_zeta.tcc:
 
@@ -1691,16 +1717,6 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
-/usr/lib/llvm-14/include/llvm/Support/MathExtras.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/EpochTracker.h:
-
-/usr/lib/llvm-14/include/llvm/IR/Verifier.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/DenseMap.h:
-
-/usr/lib/llvm-14/include/llvm/IR/DebugLoc.h:
-
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
@@ -1715,49 +1731,29 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h:
 
-/usr/lib/llvm-14/include/llvm/ADT/Bitfields.h:
+/usr/lib/llvm-14/include/llvm/Support/MathExtras.h:
 
-/usr/lib/llvm-14/include/llvm/ADT/ilist_node_options.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/ilist_node.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/ilist_iterator.h:
-
-/usr/lib/llvm-14/include/llvm/Support/PointerLikeTypeTraits.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/ilist.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/iterator.h:
-
-/usr/lib/llvm-14/include/llvm/Support/AlignOf.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/STLArrayExtras.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/STLExtras.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/SmallVector.h:
-
-/usr/lib/llvm-14/include/llvm/ADT/ArrayRef.h:
-
-/usr/lib/llvm-14/include/llvm/IR/IRBuilder.h:
-
-/usr/lib/llvm-14/include/llvm/IR/FixedMetadataKinds.def:
+/usr/lib/llvm-14/include/llvm/Support/Alignment.h:
 
 /usr/lib/llvm-14/include/llvm/Support/Casting.h:
 
 /usr/lib/llvm-14/include/llvm/Support/CBindingWrapping.h:
 
+/usr/lib/llvm-14/include/llvm/ADT/StringRef.h:
+
 /usr/include/c++/11/limits:
 
 /usr/lib/llvm-14/include/llvm/ADT/iterator_range.h:
 
+/usr/lib/llvm-14/include/llvm/ADT/StringMapEntry.h:
+
+/usr/lib/llvm-14/include/llvm/ADT/iterator.h:
+
 /usr/lib/llvm-14/include/llvm/ADT/STLFunctionalExtras.h:
 
-/usr/lib/llvm-14/include/llvm/ADT/StringRef.h:
+/usr/lib/llvm-14/include/llvm/Support/AlignOf.h:
 
-/usr/lib/llvm-14/include/llvm/IR/DiagnosticHandler.h:
+/usr/lib/llvm-14/include/llvm/ADT/STLArrayExtras.h:
 
 /usr/lib/llvm-14/include/llvm/ADT/STLForwardCompat.h:
 
@@ -1781,11 +1777,15 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/llvm-14/include/llvm/ADT/Hashing.h:
 
+/usr/lib/llvm-14/include/llvm/ADT/STLExtras.h:
+
 /usr/lib/llvm-14/include/llvm/IR/GlobalObject.h:
 
 /usr/include/inttypes.h:
 
-/usr/lib/llvm-14/include/llvm/IR/LLVMContext.h:
+/usr/lib/llvm-14/include/llvm/IR/Value.h:
+
+../src/semantics/symbol_table.h:
 
 /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h:
 
@@ -1957,9 +1957,9 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/include/c++/11/bits/invoke.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-
 /usr/lib/llvm-14/include/llvm/ADT/PointerIntPair.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/include/c++/11/bits/postypes.h:
 

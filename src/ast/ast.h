@@ -314,7 +314,35 @@ public:
   ~AssignmentExpr() { delete expr; }
 
   llvm::Value *codegen(codegen_ctx &ctx) {
-    return nullptr; // TODO
+
+    Symbol *symbol = ctx.symTable->lookup(name);
+    if (!symbol) {
+      std::cerr << "Undefined variable in assignment: \"" << name << "\""
+                << std::endl;
+      return nullptr;
+    }
+
+    llvm::Value *val = expr->codegen(ctx);
+    if (!val) {
+      std::cerr << "Failed to generate assignment for: \"" << name << "\""
+                << std::endl;
+      return nullptr;
+    }
+
+    // Type promotion
+    if (val->getType() != symbol->type) {
+      if (symbol->type->isDoubleTy() && val->getType()->isIntegerTy()) {
+        val = ctx.builder.CreateSIToFP(val, symbol->type, "int_to_double");
+      } else if (symbol->type->isIntegerTy() && val->getType()->isDoubleTy()) {
+        val = ctx.builder.CreateFPToSI(val, symbol->type, "double_to_int");
+      } else {
+        std::cerr << "Type mismatch in assignment to: " << name << std::endl;
+        return nullptr;
+      }
+    }
+
+    ctx.builder.CreateStore(val, symbol->llvmValue);
+    return val;
   }
 };
 
