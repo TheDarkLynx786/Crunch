@@ -680,6 +680,9 @@ CMakeFiles/CrunchRunner.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
   /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
   /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
+  /usr/include/llvm-14/llvm/IR/Constants.h \
+  /usr/include/llvm-14/llvm/IR/GlobalValue.h \
+  /usr/include/llvm-14/llvm/IR/GlobalVariable.h \
   /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
   /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
   /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
@@ -1137,6 +1140,9 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: ../src/parser/parser.cpp \
   /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
   /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
   /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
+  /usr/include/llvm-14/llvm/IR/Constants.h \
+  /usr/include/llvm-14/llvm/IR/GlobalValue.h \
+  /usr/include/llvm-14/llvm/IR/GlobalVariable.h \
   /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
   /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
   /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \
@@ -1587,6 +1593,8 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h:
 
+/usr/include/llvm-14/llvm/IR/Constants.h:
+
 /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h:
 
 /usr/lib/llvm-14/include/llvm/ADT/APFloat.h:
@@ -1921,6 +1929,8 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 
 /usr/lib/llvm-14/include/llvm/BinaryFormat/Dwarf.h:
 
+/usr/include/llvm-14/llvm/IR/GlobalValue.h:
+
 /usr/lib/llvm-14/include/llvm/ADT/PointerUnion.h:
 
 /usr/include/c++/11/clocale:
@@ -2192,6 +2202,8 @@ CMakeFiles/CrunchRunner.dir/src/semantics/symbol_table.cpp.o: ../src/semantics/s
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/c++/11/typeinfo:
+
+/usr/include/llvm-14/llvm/IR/GlobalVariable.h:
 
 /usr/include/c++/11/bits/move.h:
 

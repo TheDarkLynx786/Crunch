@@ -347,6 +347,9 @@ CMakeFiles/CrunchRunner.dir/src/parser/parser.cpp.o: \
  /usr/lib/llvm-14/include/llvm/ADT/APInt.h \
  /usr/lib/llvm-14/include/llvm/ADT/FloatingPointMode.h \
  /usr/lib/llvm-14/include/llvm/ADT/StringSwitch.h \
+ /usr/include/llvm-14/llvm/IR/Constants.h \
+ /usr/include/llvm-14/llvm/IR/GlobalValue.h \
+ /usr/include/llvm-14/llvm/IR/GlobalVariable.h \
  /usr/lib/llvm-14/include/llvm/IR/IRBuilder.h \
  /usr/lib/llvm-14/include/llvm/IR/ConstantFolder.h \
  /usr/lib/llvm-14/include/llvm/IR/IRBuilderFolder.h \

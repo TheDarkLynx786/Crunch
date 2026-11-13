@@ -3,6 +3,9 @@
 #include "../lexer/lexer.h"
 #include "../semantics/symbol_table.h"
 #include <iostream>
+#include <llvm-14/llvm/IR/Constants.h>
+#include <llvm-14/llvm/IR/GlobalValue.h>
+#include <llvm-14/llvm/IR/GlobalVariable.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
@@ -27,6 +30,29 @@ struct codegen_ctx {
   }
 
   ~codegen_ctx() { delete symTable; }
+
+  // Helper method for printf string formatting
+  // Breaks down format string to pass into printf
+  llvm::Value *createStringConst(const std::string &format) {
+
+    // Build string byte array
+    llvm::Constant *fmtConst =
+        llvm::ConstantDataArray::getString(context, format);
+
+    // Global Variable creation to store string
+    llvm::GlobalVariable *gv = new llvm::GlobalVariable(
+        *module, fmtConst->getType(), true, llvm::GlobalValue::PrivateLinkage,
+        fmtConst, ".fmt");
+
+    // GetElementPtr pointing to first char*
+    llvm::Constant *zero =
+        llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0);
+
+    llvm::Value *idx[] = {zero, zero};
+
+    // Return said pointer
+    return llvm::ConstantExpr::getGetElementPtr(fmtConst->getType(), gv, idx);
+  }
 };
 
 // Base Classes
@@ -74,12 +100,25 @@ public:
 
   llvm::Value *codegen(codegen_ctx &ctx) override {
 
-    // 1. Create a top-level function for the script
+    // 1. Create global wrapper function for the script (main)
     llvm::FunctionType *FT =
         llvm::FunctionType::get(llvm::Type::getVoidTy(ctx.context), false);
 
     llvm::Function *mainFn = llvm::Function::Create(
         FT, llvm::Function::ExternalLinkage, "main", ctx.module.get());
+
+    // 1.5: Implement support for the printf builtin function
+    // Side Note: it is likely that the other builtin functions will find their
+    // implementation here as well.
+    // Also, this call is telling the printf will return i32 and the first
+    // argument is a char* (i8*)
+    // The "true" flag indicates printf is variadic (variable params)
+    llvm::FunctionType *printf =
+        llvm::FunctionType::get(llvm::Type::getInt32Ty(ctx.context),
+                                {llvm::Type::getInt8PtrTy(ctx.context)}, true);
+    // And create the printf function
+    llvm::Function::Create(printf, llvm::Function::ExternalLinkage, "printf",
+                           ctx.module.get());
 
     // 2. Create entry block
     llvm::BasicBlock *entry =
@@ -95,6 +134,7 @@ public:
     }
 
     // 5. End the function
+    // Have this return an integer for error types like C
     ctx.builder.CreateRetVoid();
 
     return last;
@@ -573,14 +613,37 @@ public:
 
 class PrintStmt : public StmtNode {
 public:
-  ExprNode *value;
+  std::vector<ExprNode *> values;
 
-  PrintStmt(ExprNode *value) : value(value) {}
+  PrintStmt(std::vector<ExprNode *> values) : values(values) {}
 
-  ~PrintStmt() { delete value; }
+  ~PrintStmt() {
+    for (auto *value : values) {
+      delete value;
+    }
+  }
 
   llvm::Value *codegen(codegen_ctx &ctx) override {
-    return nullptr; // TODO
+    llvm::Value *val = value->codegen(ctx);
+    llvm::Function *printf = ctx.module->getFunction("printf");
+
+    // Declare format
+    llvm::Value *format = nullptr;
+
+    // Format type check
+    if (val->getType()->isIntegerTy(32))
+      format = ctx.createStringConst("%d\n");
+    else if (val->getType()->isDoubleTy())
+      format = ctx.createStringConst("%f\n");
+    else if (val->getType()->isIntegerTy(1))
+      format = ctx.createStringConst("%d\n");
+    else {
+      std::cerr << "Unsupported type for print()" << std::endl;
+      return nullptr;
+    }
+
+    // Return call
+    return ctx.builder.CreateCall(printf, {format, val});
   }
 };
 
