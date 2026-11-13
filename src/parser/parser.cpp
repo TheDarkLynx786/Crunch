@@ -123,7 +123,7 @@ StmtNode *Parser::parseIfStmt() {
   return new IfStmt(cond, thenBranch, elseBranch);
 }
 
-StmtNode *Parser::parsePrintStmt() {
+/*StmtNode *Parser::parsePrintStmt() {
   consume(TokenType::KW_PRINT, "Expected \"print\" statement.");
 
   consume(TokenType::LPAREN, "Expected \'(\' before expression.");
@@ -141,6 +141,22 @@ StmtNode *Parser::parsePrintStmt() {
   consume(TokenType::RPAREN, "Expected \')\' before expression.");
 
   consume(TokenType::SEMICOL, "Expected ';' after print value");
+  return new PrintStmt(values);
+}*/
+
+StmtNode *Parser::parsePrintStmt() {
+  consume(TokenType::KW_PRINT, "Expected 'print'");
+  std::vector<ExprNode *> values;
+  do {
+    values.push_back(parseExpression());
+    if (peek()->getType() == TokenType::COMMA) {
+      advance(); // Consume comma
+    }
+  } while (peek()->getType() != TokenType::SEMICOL);
+
+  consume(TokenType::RPAREN, "Expected \')\' before expression.");
+
+  consume(TokenType::SEMICOL, "Expected ';'");
   return new PrintStmt(values);
 }
 
@@ -442,7 +458,9 @@ void printStmtNode(StmtNode *stmt, int indent) {
   if (auto ps = dynamic_cast<PrintStmt *>(stmt)) {
     printIndent(indent);
     std::cout << "PrintStmt\n";
-    printExprNode(ps->value, indent + 1);
+    for (auto expr : ps->values) { // Iterate over the expressions in PrintStmt
+      printExprNode(expr, indent + 1);
+    }
     return;
   }
 

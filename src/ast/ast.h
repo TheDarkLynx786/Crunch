@@ -624,26 +624,36 @@ public:
   }
 
   llvm::Value *codegen(codegen_ctx &ctx) override {
-    llvm::Value *val = value->codegen(ctx);
-    llvm::Function *printf = ctx.module->getFunction("printf");
-
-    // Declare format
+    std::vector<llvm::Value *> args;
     llvm::Value *format = nullptr;
 
-    // Format type check
-    if (val->getType()->isIntegerTy(32))
-      format = ctx.createStringConst("%d\n");
-    else if (val->getType()->isDoubleTy())
-      format = ctx.createStringConst("%f\n");
-    else if (val->getType()->isIntegerTy(1))
-      format = ctx.createStringConst("%d\n");
-    else {
-      std::cerr << "Unsupported type for print()" << std::endl;
+    // Create format string constant
+    format = ctx.createStringConst(
+        "%d\n"); // Default to int for now, enhance as needed
+
+    for (auto *value : values) {
+      llvm::Value *val = value->codegen(ctx);
+      if (!val)
+        return nullptr; // Handle codegen failure
+
+      args.push_back(val);
+    }
+
+    // Get printf function from module
+    llvm::Function *printf = ctx.module->getFunction("printf");
+    if (!printf) {
+      std::cerr << "Printf not found" << std::endl;
       return nullptr;
     }
 
-    // Return call
-    return ctx.builder.CreateCall(printf, {format, val});
+    // Create call instruction, format string goes first then arguments
+    std::vector<llvm::Value *> callArgs;
+    callArgs.push_back(format);
+    for (auto arg : args) {
+      callArgs.push_back(arg);
+    }
+
+    return ctx.builder.CreateCall(printf, callArgs);
   }
 };
 
